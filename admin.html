@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Painel</title>
+<style>
+:root{--ink:#3b2f2a;--mut:#8a8785;--gold:#c9a86a;--gold2:#e6d3a8;--rose:#f5e4df;--terra:#b0604a}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,sans-serif;color:var(--ink);background:#fff}
+.w{max-width:780px;margin:auto;padding:24px 20px 90px}h1{font-family:Georgia,serif;font-weight:500}h2{font-family:Georgia,serif;font-weight:500;margin-top:44px;border-bottom:1px solid var(--gold2);padding-bottom:6px}
+label{display:block;font-size:12px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.07em;margin:16px 0 4px}
+input,textarea{width:100%;padding:10px 12px;border:1px solid var(--gold2);border-radius:10px;font:inherit}
+button{background:var(--terra);color:#fff;border:0;border-radius:99px;padding:10px 20px;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 6px 0}button.g{background:var(--mut)}
+.row{border:1px solid var(--gold2);border-radius:14px;padding:12px;margin:10px 0}.row input{margin-bottom:6px}
+.pv{max-width:220px;max-height:200px;border-radius:12px;display:block;margin:6px 0}
+nav{position:sticky;top:0;background:#fffffff2;padding:10px 0;border-bottom:1px solid var(--rose);display:flex;gap:14px;flex-wrap:wrap;font-size:14px}nav a{color:var(--terra)}
+#t{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 20px;border-radius:99px;opacity:0;transition:.3s;pointer-events:none}#t.on{opacity:1}
+table{border-collapse:collapse}td,th{padding:6px 16px 6px 0;text-align:left;border-bottom:1px solid var(--rose)}
+</style></head><body><div class="w" id="app"></div><div id="t"></div>
+<script type="module">
+import {sb,DEF} from './config.js';
+const $=s=>document.querySelector(s),app=$('#app');
+const h=(t,p={},...k)=>{const e=document.createElement(t);Object.assign(e,p);e.append(...k);return e};
+const flash=m=>{const t=$('#t');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200)};
+const LBL={logo:'Logo (menu)',logo2:'Logo (rodapé)',portrait:'Foto principal (topo)',seguro:'Foto da seção Segurança',p47:'Foto da seção Sobre',v1:'Vídeo 1',v2:'Vídeo 2',v3:'Vídeo 3'};
+const txt=e=>{const d=document.createElement('div');d.innerHTML=e.innerHTML.replace(/<em[^>]*>(.*?)<\/em>/g,'*$1*').replace(/<br\s*\/?>/g,'\n');return d.textContent};
+async function init(){const {data:{session}}=await sb.auth.getSession();session?panel():login()}
+function login(){
+  const E=h('input',{type:'email',placeholder:'E-mail'}),P=h('input',{type:'password',placeholder:'Senha'});
+  app.replaceChildren(h('h1',{textContent:'Painel da página'}),E,h('br'),h('br'),P,h('br'),h('br'),
+    h('button',{textContent:'Entrar',onclick:async()=>{const {error}=await sb.auth.signInWithPassword({email:E.value,password:P.value});error?alert('E-mail ou senha incorretos'):panel()}}));
+}
+async function panel(){
+  const [pg,{data:rows}]=await Promise.all([fetch('./index.html').then(r=>r.text()),sb.from('site_content').select('key,value')]);
+  const C=Object.fromEntries((rows||[]).map(r=>[r.key,r.value])),doc=new DOMParser().parseFromString(pg,'text/html');
+  const put=async(key,value)=>{const {error}=await sb.from('site_content').upsert({key,value,updated_at:new Date().toISOString()});flash(error?'Erro ao salvar':'Salvo ✓');return !error};
+  const top=h('div',{},h('h1',{textContent:'Painel da página'}),h('p',{style:'color:#8a8785',textContent:'Use *asteriscos* para destacar uma palavra na cor terracota. Tudo salva sozinho e aparece na página na hora.'}));
+  const nav=h('nav',{},...[['#tx','Textos'],['#md','Fotos e vídeos'],['#tr','Tratamentos'],['#wa','WhatsApp e cliques']].map(([a,b])=>h('a',{href:a,textContent:b})),h('a',{href:'./index.html',target:'_blank',textContent:'Ver página ↗'}),h('a',{href:'#',textContent:'Sair',onclick:async()=>{await sb.auth.signOut();login()}}));
+  const tx=h('div',{id:'tx'},h('h2',{textContent:'Textos'}));
+  doc.querySelectorAll('[data-k]').forEach(e=>{const k=e.dataset.k;const a=h('textarea',{rows:2,value:C[k]!=null?C[k]:txt(e),onchange:()=>put(k,a.value)});tx.append(h('label',{textContent:e.dataset.l||k}),a)});
+  const md=h('div',{id:'md'},h('h2',{textContent:'Fotos e vídeos'}));
+  doc.querySelectorAll('[data-m]').forEach(e=>{const k=e.dataset.m,v=e.tagName=='VIDEO',pv=h(v?'video':'img',{className:'pv',src:C[k]||e.getAttribute('src'),controls:v,muted:true});
+    md.append(h('label',{textContent:'Trocar: '+(LBL[k]||k)}),pv,h('input',{type:'file',accept:v?'video/*':'image/*',onchange:async x=>{const f=x.target.files[0];if(!f)return;flash('Enviando…');
+      const p=`${k}-${Date.now()}.${f.name.split('.').pop()}`,{error}=await sb.storage.from('media').upload(p,f,{cacheControl:'31536000'});if(error)return flash('Erro: '+error.message);
+      const u=sb.storage.from('media').getPublicUrl(p).data.publicUrl;if(await put(k,u))pv.src=u}}))});
+  const trb=h('div',{id:'tr'},h('h2',{textContent:'Tratamentos'}));const list=h('div');
+  let T=[];
+  const load=async()=>{let r=(await sb.from('treatments').select('*').order('pos')).data||[];
+    if(!r.length){await sb.from('treatments').insert(DEF.map((t,i)=>({...t,pos:i})));r=(await sb.from('treatments').select('*').order('pos')).data||[]}T=r;draw()};
+  const move=async(i,d)=>{const j=i+d;if(j<0||j>=T.length)return;[T[i],T[j]]=[T[j],T[i]];await sb.from('treatments').upsert(T.map((t,n)=>({...t,pos:n})));load()};
+  const draw=()=>list.replaceChildren(...T.map((t,i)=>{
+    const a=h('input',{value:t.title,placeholder:'Nome',onchange:async()=>{await sb.from('treatments').update({title:a.value}).eq('id',t.id);flash('Salvo ✓')}}),
+      b=h('textarea',{rows:2,value:t.descr,placeholder:'Descrição',onchange:async()=>{await sb.from('treatments').update({descr:b.value}).eq('id',t.id);flash('Salvo ✓')}});
+    return h('div',{className:'row'},a,b,h('button',{className:'g',textContent:'↑',onclick:()=>move(i,-1)}),h('button',{className:'g',textContent:'↓',onclick:()=>move(i,1)}),
+      h('button',{textContent:'Excluir',onclick:async()=>{if(confirm('Excluir "'+t.title+'"?')){await sb.from('treatments').delete().eq('id',t.id);load()}}}))}));
+  trb.append(list,h('button',{textContent:'+ Adicionar tratamento',onclick:async()=>{await sb.from('treatments').insert({title:'Novo tratamento',descr:'',pos:T.length});load()}}));
+  const wa=h('div',{id:'wa'},h('h2',{textContent:'WhatsApp e cliques'}));
+  const w1=h('input',{value:C.wa||'5567996397101',onchange:()=>put('wa',w1.value.replace(/\D/g,''))}),w2=h('input',{value:C.msg||'Olá, Dra. Camila! Vim pelo site e gostaria de agendar uma avaliação.',onchange:()=>put('msg',w2.value)});
+  const mt=h('div');wa.append(h('label',{textContent:'WhatsApp (55 + DDD + número)'}),w1,h('label',{textContent:'Mensagem automática'}),w2,h('h3',{textContent:'Cliques no WhatsApp (últimos 30 dias)'}),mt);
+  const since=new Date(Date.now()-30*864e5).toISOString(),{data:cl}=await sb.from('clicks').select('source').gte('created_at',since).limit(10000),c={};
+  (cl||[]).forEach(x=>c[x.source]=(c[x.source]||0)+1);
+  mt.append(h('table',{innerHTML:'<tr><th>Botão</th><th>Cliques</th></tr>'+Object.entries(c).map(([a,b])=>`<tr><td>${a}</td><td>${b}</td></tr>`).join('')+`<tr><th>Total</th><th>${(cl||[]).length}</th></tr>`}));
+  app.replaceChildren(top,nav,tx,md,trb,wa);load();
+}
+init();
+</script></body></html>

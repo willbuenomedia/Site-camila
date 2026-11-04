@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="assets/logo.png"><title>Dra. Camila Migueis | Harmonização Orofacial</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--ink:#3b2f2a;--mut:#8a8785;--gold:#c9a86a;--gold2:#e6d3a8;--rose:#f5e4df;--terra:#b0604a;--serif:"Cormorant Garamond",Georgia,serif;--sans:Quicksand,system-ui,sans-serif;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);overflow-x:hidden}
+img,video{max-width:100%;display:block}
+.w{max-width:1120px;margin:auto;padding:0 22px}
+h1,h2{font-family:var(--serif);font-weight:500;line-height:1.05}
+h1{font-size:clamp(40px,7vw,78px)}h2{font-size:clamp(32px,4.6vw,52px)}
+em{color:var(--terra)}
+.eye{letter-spacing:.22em;text-transform:uppercase;font-size:12px;color:var(--gold);font-weight:600;margin-bottom:14px}
+header{position:fixed;inset:0 0 auto;z-index:20;padding:calc(14px + env(safe-area-inset-top,0px)) 0 14px;transition:.4s}
+header.s{background:#fffffff0;backdrop-filter:blur(8px);box-shadow:0 1px 0 #0000000f}
+header .w{display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:var(--serif);font-size:22px;letter-spacing:.02em}.logo b{display:inline-grid;place-items:center;width:34px;height:34px;border:1px solid var(--gold);border-radius:50%;font-style:italic;color:var(--gold);margin-right:10px;font-weight:400}
+.btn{display:inline-flex;gap:10px;align-items:center;background:var(--terra);color:#fff;text-decoration:none;padding:15px 28px;border-radius:99px;font-weight:600;transition:transform .2s,box-shadow .3s;position:relative;overflow:hidden}
+.btn:hover{box-shadow:0 10px 28px #b0604a55}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,#ffffff55,transparent 70%);transform:translateX(-120%);animation:sh 3.4s infinite}
+@keyframes sh{to{transform:translateX(120%)}}
+.hero{min-height:100svh;display:grid;align-items:center;padding:120px 0 60px;background:radial-gradient(60% 50% at 85% 30%,var(--rose),transparent),var(--bg);position:relative}
+.hero .w{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.ln{display:block;overflow:hidden}.ln>span{display:block;transform:translateY(110%);animation:up 1s cubic-bezier(.2,.8,.2,1) forwards}
+.ln:nth-child(2)>span{animation-delay:.15s}.ln:nth-child(3)>span{animation-delay:.3s}
+@keyframes up{to{transform:none}}
+.hero p.lead{margin:22px 0 30px;color:var(--mut);max-width:440px;opacity:0;animation:fd 1s .7s forwards}
+.hero .btn{opacity:0;animation:fd 1s .9s forwards}
+@keyframes fd{to{opacity:1}}
+.ph{position:relative;border-radius:200px 200px 24px 24px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 60px #b0604a2e;animation:rv 1.4s cubic-bezier(.2,.8,.2,1) both;transition:transform .2s}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph::before{content:"";position:absolute;inset:14px;border:1px solid #ffffffaa;border-radius:190px 190px 14px 14px;z-index:1;pointer-events:none}
+@keyframes rv{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0)}}
+.dot{position:absolute;border-radius:50%;background:var(--gold2);opacity:.5;animation:fl 8s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-26px) scale(1.15)}}
+.mq{background:var(--rose);overflow:hidden;white-space:nowrap;padding:18px 0;border-block:1px solid var(--gold2)}
+.mq div{display:inline-block;animation:mq 28s linear infinite;font-family:var(--serif);font-size:26px;font-style:italic}
+.mq span{margin:0 28px}.mq span::after{content:"✦";color:var(--gold);margin-left:56px;font-style:normal;font-size:14px}
+@keyframes mq{to{transform:translateX(-50%)}}
+section{padding:96px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:44px}
+.card{border:1px solid var(--gold2);border-radius:20px;padding:28px 24px;background:#fff;transition:.4s}
+.card:hover{background:var(--rose);transform:translateY(-6px)}
+.card i{font:italic 34px var(--serif);color:var(--gold)}.card h3{font:500 25px var(--serif);margin:6px 0}.card p{color:var(--mut);font-size:14.5px}
+.q{background:var(--terra);color:#fff;text-align:center;padding:110px 0}
+.q p{font:400 clamp(28px,4.4vw,52px)/1.2 var(--serif);max-width:860px;margin:auto}.q small{display:block;margin-top:24px;letter-spacing:.2em;text-transform:uppercase;font-size:12px;color:var(--gold2)}
+.vids{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:26px;margin-top:44px}
+.v{border-radius:22px;overflow:hidden;background:var(--rose);transition:transform .4s}.v:hover{transform:translateY(-6px) rotate(-.6deg)}
+.v video{width:100%;aspect-ratio:9/16;object-fit:cover;background:#000}.v p{padding:18px 20px 22px;font-size:14.5px;color:var(--ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.two img{border-radius:24px;box-shadow:0 24px 50px #0000001f}.two p{color:var(--mut);margin-top:18px}
+.alt{background:var(--rose)}
+.cta{text-align:center;background:linear-gradient(#fff,var(--rose))}.cta p{color:var(--mut);margin:16px auto 32px;max-width:480px}
+footer{padding:34px 0;text-align:center;font-size:13px;color:var(--mut);border-top:1px solid var(--gold2)}
+.fab{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:30;width:60px;height:60px;border-radius:50%;background:#25a35a;display:grid;place-items:center;box-shadow:0 8px 24px #0003;animation:pu 2.4s infinite}
+@keyframes pu{0%{box-shadow:0 0 0 0 #25a35a99}70%,100%{box-shadow:0 0 0 22px #25a35a00}}
+.fab svg{width:30px;fill:#fff}
+.rv{opacity:0;transform:translateY(40px);transition:1s cubic-bezier(.2,.8,.2,1)}.rv.on{opacity:1;transform:none}
+#adm{position:fixed;inset:0;z-index:50;background:#fff;overflow:auto;padding:26px 0 60px;display:none}
+#adm.on{display:block}#adm label{display:block;font-size:12px;font-weight:600;margin:16px 0 4px;color:var(--mut);text-transform:uppercase;letter-spacing:.08em}
+#adm input,#adm textarea{width:100%;padding:10px 12px;border:1px solid var(--gold2);border-radius:10px;font:inherit}
+#adm .btn{border:0;cursor:pointer;margin:6px 8px 6px 0;padding:11px 20px;font:inherit;font-weight:600}
+#adm table{border-collapse:collapse;margin-top:8px}#adm td,#adm th{padding:6px 14px;border-bottom:1px solid var(--rose);text-align:left}
+@media(max-width:820px){.hero .w,.two{grid-template-columns:1fr}.ph{max-width:380px;margin:auto}section{padding:70px 0}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.ln>span,.hero p.lead,.hero .btn,.rv{opacity:1;transform:none}}
+.q em{color:var(--gold2)}@property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
+#pre{position:fixed;inset:0;z-index:100;background:#fff;display:grid;place-content:center;justify-items:center;gap:18px;transition:opacity .9s,visibility .9s}
+#pre.out{opacity:0;visibility:hidden}
+#pre .dr{width:min(50vw,230px);aspect-ratio:1;-webkit-mask:conic-gradient(#000 var(--a),transparent calc(var(--a) + 2deg));mask:conic-gradient(#000 var(--a),transparent calc(var(--a) + 2deg));animation:dw 2.2s cubic-bezier(.5,0,.3,1) forwards}
+@keyframes dw{to{--a:360deg}}
+#pre i{display:block;width:100%;height:100%;-webkit-mask:var(--logo,url(assets/logo.png)) center/contain no-repeat;mask:var(--logo,url(assets/logo.png)) center/contain no-repeat;background:linear-gradient(105deg,#9fbccf 38%,#fff6dc 47%,#c9a86a 50%,#fff6dc 53%,#9fbccf 62%) 120% 0/260% 100%;animation:sh2 2.4s .5s ease-in-out infinite}
+@keyframes sh2{to{background-position:-60% 0}}
+#pre p{font:italic 22px var(--serif);letter-spacing:.06em;color:var(--mut);opacity:0;animation:fd 1s 1.4s forwards}
+body:not(.go) .hero *{animation-play-state:paused}
+</style></head><body><div id="pre"><div class="dr"><i></i></div><p>Dra. Camila Migueis</p></div>
+<script>try{var l=localStorage.getItem('lg');if(l)document.documentElement.style.setProperty('--logo','url('+l+')')}catch(e){}
+var t0=performance.now(),done=function(){setTimeout(function(){document.getElementById('pre').classList.add('out');document.body.classList.add('go')},Math.max(0,2700-(performance.now()-t0)))};
+document.readyState=='complete'?done():addEventListener('load',done);setTimeout(done,6000)</script>
+<header id="hd"><div class="w"><div class="logo"><img data-m="logo" src="assets/logo.png" alt="Logo Dra. Camila Migueis" style="height:46px;width:46px;display:inline-block;vertical-align:middle;margin-right:10px"><span data-k="nome" data-l="Nome no topo">Camila Migueis</span></div><a class="btn" data-wa="topo" data-k="b_topo" data-l="Botão do menu" href="#" style="padding:10px 20px;font-size:14px">Agendar</a></div></header>
+
+<main>
+<div class="hero"><i class="dot" style="width:90px;height:90px;left:6%;top:20%"></i><i class="dot" style="width:46px;height:46px;right:48%;bottom:12%;animation-delay:2s"></i>
+<div class="w"><div>
+<div class="eye" data-k="eye" data-l="Chamada pequena (topo do título)">Dra. Camila Migueis · Harmonização Orofacial</div>
+<h1><span class="ln"><span data-k="h1a" data-l="Título, linha 1">Harmonização</span></span><span class="ln"><span data-k="h1b" data-l="Título, linha 2">não te padroniza.</span></span><span class="ln"><span data-k="h1c" data-l="Título, linha 3 (*asteriscos* destacam)"><em>Te revela.</em></span></span></h1>
+<p class="lead" data-k="lead" data-l="Texto do topo">Um plano feito sob medida para o seu rosto, no seu tempo, com naturalidade e segurança em cada etapa.</p>
+<a class="btn" data-wa="hero" data-k="b_hero" data-l="Botão do topo" href="#">Agendar minha avaliação</a></div>
+<div class="ph" id="ph"><img data-m="portrait" src="assets/portrait.jpg" alt="Dra. Camila Migueis"></div></div></div>
+
+<div class="mq"><div id="mq"></div></div>
+
+<section><div class="w"><div data-k="e1" data-l="Chamada pequena: Tratamentos" class="eye rv">Tratamentos</div><h2 class="rv" data-k="h_trat" data-l="Título tratamentos">Cada rosto pede um <em>plano próprio.</em></h2>
+<div class="grid" id="tr"></div></div></section>
+
+<div class="q"><div class="w rv"><p data-k="quote" data-l="Frase de destaque">A harmonização precisa ser personalizada e construída aos poucos, <em style="color:var(--gold2)">não é receita de bolo.</em></p><small data-k="q_aut" data-l="Assinatura da frase">Dra. Camila Migueis</small></div></div>
+
+<section><div class="w"><div data-k="e2" data-l="Chamada pequena: Resultados reais" class="eye rv">Resultados reais</div><h2 class="rv" data-k="h_res" data-l="Título resultados">Histórias de quem <em>confiou.</em></h2>
+<div class="vids">
+<div class="v rv"><video data-m="v1" src="assets/v1.mp4" poster="assets/v1.jpg" controls playsinline preload="none"></video><p data-k="v1t" data-l="Legenda vídeo 1">A Paula buscava mais harmonia para o perfil. Cada detalhe foi planejado junto com ela, respeitando a sua identidade e as proporções do seu rosto. Obrigada pela confiança, Paula!</p></div>
+<div class="v rv"><video data-m="v2" src="assets/v2.mp4" poster="assets/v2.jpg" controls playsinline preload="none"></video><p data-k="v2t" data-l="Legenda vídeo 2">Cuidado com técnica e atenção aos detalhes, sempre valorizando o que cada paciente tem de mais bonito. Cada rosto, um plano.</p></div>
+<div class="v rv"><video data-m="v3" src="assets/v3.mp4" poster="assets/v3.jpg" controls playsinline preload="none"></video><p data-k="v3t" data-l="Legenda vídeo 3">Há quase 10 anos, ela confia na constância do cuidado com a pele. Uma relação construída aos poucos, consulta após consulta. Obrigada pela confiança!</p></div></div></div></section>
+
+<section class="alt"><div class="w two"><img class="rv" data-m="seguro" src="assets/seguro.jpg" alt="Atendimento seguro" loading="lazy"><div class="rv"><div data-k="e3" data-l="Chamada pequena: Segurança" class="eye">Segurança</div><h2 data-k="h_seg" data-l="Título segurança">Um lugar <em>seguro</em> para você.</h2><p data-k="t_seg" data-l="Texto segurança">Sentir receio é normal. Por isso, o primeiro passo é uma conversa: você tira todas as dúvidas, entende cada etapa e só segue se se sentir segura. Tudo com técnica, cuidado e respeito pela sua identidade.</p><br><a class="btn" data-wa="seguranca" data-k="b_seg" data-l="Botão da seção Segurança" href="#">Tirar minhas dúvidas</a></div></div></section>
+
+<section><div class="w two"><div class="rv"><div data-k="e4" data-l="Chamada pequena: Sobre" class="eye">Sobre</div><h2 data-k="h_sob" data-l="Título sobre">Eu cuido do seu rosto como cuido do <em>meu.</em></h2><p data-k="t_sob" data-l="Texto sobre">Sou a Dra. Camila Migueis, dentista (CRO/MS 3323) com atuação em Harmonização Orofacial. Acredito em cuidado constante, escolhas conscientes e resultados que parecem com você.</p></div><img class="rv" data-m="p47" src="assets/p47.jpg" alt="Dra. Camila Migueis" loading="lazy"></div></section>
+
+<section class="cta"><div class="w rv"><div data-k="e5" data-l="Chamada pequena: Agende" class="eye">Agende</div><h2 data-k="h_fim" data-l="Título final">Vamos planejar o seu <em>cuidado?</em></h2><p data-k="t_fim" data-l="Texto final">Fale comigo pelo WhatsApp e agende a sua avaliação. Sem pressa e sem compromisso.</p><a class="btn" data-wa="final" data-k="b_fim" data-l="Botão final" href="#">Agendar pelo WhatsApp</a></div></section>
+</main>
+<footer><div class="w"><img data-m="logo2" src="assets/logo.png" alt="" style="height:60px;margin:0 auto 10px"><span data-k="rod" data-l="Rodapé">Dra. Camila Migueis · Dentista CRO/MS 3323 · Harmonização Orofacial<br>Resultados variam de pessoa para pessoa. Todo procedimento exige avaliação individual.</span></div></footer>
+<a class="fab" data-wa="flutuante" href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.200-.7-2.700-1.100-4.400-3.800-4.500-4-.1-.1-1.100-1.400-1.100-2.700s.7-1.900.9-2.200c.2-.2.5-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.3.400-.4.400c-.1.100-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.100 1 2.100 1.300 2.400 1.400.3.100.5.100.6-.1l.8-1c.2-.3.400-.2.600-.1l1.900.9c.3.100.5.200.5.300.1.200.1.800-.1 1.400z"/></svg></a>
+
+<script type="module" src="main.js"></script></body></html>
