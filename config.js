@@ -1,6 +1,6 @@
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
 // Cole aqui os dados do Supabase (Project Settings > API)
-export const sb=createClient('COLE_AQUI_A_URL_DO_PROJETO','COLE_AQUI_A_ANON_KEY');
+export const sb=createClient('https://cixzmyuxbblvdnlrnfxc.supabase.co','sb_publishable_ci496XXaZ9ifZ8Pe2fIcig_kzCffs0H');
 // Tratamentos iniciais (usados até a Dra. editar no painel)
 export const DEF=[
 {title:'Lifting temporal',descr:'Uma abordagem delicada para o terço superior do rosto, avaliada caso a caso.'},
