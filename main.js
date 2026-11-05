@@ -4,7 +4,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 const fmt=s=>esc(s).replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
 const io=new IntersectionObserver(es=>es.forEach(x=>x.isIntersecting&&(x.target.classList.add('on'),io.unobserve(x.target))),{threshold:.12});
 const obs=()=>$$('.rv:not(.on)').forEach(e=>io.observe(e));
-const cards=l=>{$('#tr').innerHTML=l.map((t,i)=>`<div class="card rv"><i>${String(i+1).padStart(2,'0')}</i><h3>${esc(t.title)}</h3><p>${esc(t.descr)}</p></div>`).join('');const m=l.map(t=>`<span>${esc(t.title)}</span>`).join('');$('#mq').innerHTML=m+m;obs()};
+const cards=l=>{$('#tr').innerHTML=l.map((t,i)=>`<div class="card rv"><i>${String(i+1).padStart(2,'0')}</i><h3>${esc(t.title)}</h3><p>${esc(t.descr)}</p></div>`).join('');const m=l.map(t=>`<span>${esc(t.title)}</span>`).join('');const r=l.slice().reverse().map(t=>`<span>${esc(t.title)}</span>`).join('');$('#mq1').innerHTML=m+m;$('#mq2').innerHTML=r+r;obs()};
 let wa='5567996397101',msg='Olá, Dra. Camila! Vim pelo site e gostaria de agendar uma avaliação.';
 const links=()=>$$('[data-wa]').forEach(a=>a.href=`https://wa.me/${wa}?text=${encodeURIComponent(msg)}&utm_source=site&utm_medium=${a.dataset.wa}`);
 cards(DEF);links();obs();

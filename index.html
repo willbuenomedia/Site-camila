@@ -35,10 +35,12 @@ header .w{display:flex;justify-content:space-between;align-items:center}
 @keyframes rv{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0)}}
 .dot{position:absolute;border-radius:50%;background:var(--gold2);opacity:.5;animation:fl 8s ease-in-out infinite}
 @keyframes fl{50%{transform:translateY(-26px) scale(1.15)}}
-.mq{background:var(--rose);overflow:hidden;white-space:nowrap;padding:18px 0;border-block:1px solid var(--gold2)}
-.mq div{display:inline-block;animation:mq 28s linear infinite;font-family:var(--serif);font-size:26px;font-style:italic}
-.mq span{margin:0 28px}.mq span::after{content:"✦";color:var(--gold);margin-left:56px;font-style:normal;font-size:14px}
-@keyframes mq{to{transform:translateX(-50%)}}
+.mq{background:var(--rose);overflow:hidden;padding:18px 0;border-block:1px solid var(--gold2)}
+.mr{display:flex;width:max-content;font-family:var(--serif);font-size:26px;font-style:italic;white-space:nowrap;animation:mq 30s linear infinite;will-change:transform}
+.mr.b{display:none;animation-name:mq2}.mr+.mr{margin-top:14px}
+.mr span{margin:0 28px}.mr span::after{content:"✦";color:var(--gold);margin-left:56px;font-style:normal;font-size:14px}
+@keyframes mq{to{transform:translateX(-50%)}}@keyframes mq2{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@media(max-width:820px){.mq{padding:14px 0}.mr{font-size:22px;animation-duration:38s}.mr.b{display:flex;animation-duration:44s}.mr span{margin:0 16px}.mr span::after{margin-left:32px}}
 section{padding:96px 0}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:44px}
 .card{border:1px solid var(--gold2);border-radius:20px;padding:28px 24px;background:#fff;transition:.4s}
@@ -89,7 +91,7 @@ document.readyState=='complete'?done():addEventListener('load',done);setTimeout(
 <a class="btn" data-wa="hero" data-k="b_hero" data-l="Botão do topo" href="#">Agendar minha avaliação</a></div>
 <div class="ph" id="ph"><img data-m="portrait" src="assets/portrait.jpg" alt="Dra. Camila Migueis"></div></div></div>
 
-<div class="mq"><div id="mq"></div></div>
+<div class="mq"><div class="mr" id="mq1"></div><div class="mr b" id="mq2"></div></div>
 
 <section><div class="w"><div data-k="e1" data-l="Chamada pequena: Tratamentos" class="eye rv">Tratamentos</div><h2 class="rv" data-k="h_trat" data-l="Título tratamentos">Cada rosto pede um <em>plano próprio.</em></h2>
 <div class="grid" id="tr"></div></div></section>
