@@ -1,10 +1,13 @@
-// Backup anti-pausa. Chamado pelo Vercel a cada 3 dias (vercel.json). Não precisa de variáveis: lê a URL e a chave
-// PÚBLICAS do próprio config.js do site (podem ser públicas; quem protege os dados é o RLS).
+
 export default async function handler(req,res){
-  const host=process.env.VERCEL_PROJECT_PRODUCTION_URL||process.env.VERCEL_URL;
-  if(!host)return res.status(200).json({ok:false});
-  const t=await fetch('https://'+host+'/config.js').then(r=>r.text()).catch(()=>'');
-  const u=(/SUPABASE_URL\s*=\s*'([^']+)'/.exec(t)||[])[1],k=(/SUPABASE_KEY\s*=\s*'([^']+)'/.exec(t)||[])[1];
-  if(!u||!k||!/^https:\/\//.test(u))return res.status(200).json({ok:false});
-  const r=await fetch(u+'/rest/v1/rpc/ping',{method:'POST',headers:{apikey:k,'Content-Type':'application/json'},body:'{}'}).catch(()=>null);
-  res.status(200).json({ok:!!(r&&r.ok)})}
+  let u=process.env.SUPABASE_URL,k=process.env.SUPABASE_KEY,via='variaveis';
+  if(!u||!k){via='config.js';
+    const host=process.env.VERCEL_PROJECT_PRODUCTION_URL||process.env.VERCEL_URL;
+    const t=host?await fetch('https://'+host+'/config.js').then(r=>r.text()).catch(()=>''):'';
+    u=u||(/SUPABASE_URL\s*=\s*['"]([^'"]+)['"]/.exec(t)||[])[1];k=k||(/SUPABASE_KEY\s*=\s*['"]([^'"]+)['"]/.exec(t)||[])[1]}
+  if(!u||!k)return res.status(200).json({ok:false,motivo:'url ou chave nao encontradas',via});
+  if(!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(u.trim()))return res.status(200).json({ok:false,motivo:'SUPABASE_URL com formato estranho',via});
+  const r=await fetch(u.trim().replace(/\/$/,'')+'/rest/v1/rpc/ping',{method:'POST',headers:{apikey:k.trim(),'Content-Type':'application/json'},body:'{}'}).catch(()=>null);
+  if(!r)return res.status(200).json({ok:false,motivo:'sem resposta do Supabase',via});
+  const m={401:'chave recusada',404:'funcao ping nao existe no banco',403:'sem permissao para ping'};
+  res.status(200).json(r.ok?{ok:true,via}:{ok:false,status:r.status,motivo:m[r.status]||'erro no Supabase',via})}
