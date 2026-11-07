@@ -4,7 +4,7 @@
 <link rel="icon" href="assets/logo.png"><title>Dra. Camila Migueis | Harmonização Orofacial</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#fff;--ink:#3b2f2a;--mut:#8a8785;--gold:#c9a86a;--gold2:#e6d3a8;--rose:#f5e4df;--terra:#b0604a;--serif:"Cormorant Garamond",Georgia,serif;--sans:Quicksand,system-ui,sans-serif;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#fff;--ink:#3b2f2a;--mut:#6b6764;--goldt:#8a6a2c;--gold:#c9a86a;--gold2:#e6d3a8;--rose:#f5e4df;--terra:#b0604a;--serif:"Cormorant Garamond",Georgia,serif;--sans:Quicksand,system-ui,sans-serif;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}*{box-sizing:border-box;margin:0}
 body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);overflow-x:hidden}
 img,video{max-width:100%;display:block}
@@ -12,7 +12,7 @@ img,video{max-width:100%;display:block}
 h1,h2{font-family:var(--serif);font-weight:500;line-height:1.05}
 h1{font-size:clamp(40px,7vw,78px)}h2{font-size:clamp(32px,4.6vw,52px)}
 em{color:var(--terra)}
-.eye{letter-spacing:.22em;text-transform:uppercase;font-size:12px;color:var(--gold);font-weight:600;margin-bottom:14px}
+.eye{letter-spacing:.22em;text-transform:uppercase;font-size:12px;color:var(--goldt);font-weight:600;margin-bottom:14px}
 header{position:fixed;inset:0 0 auto;z-index:20;padding:calc(14px + env(safe-area-inset-top,0px)) 0 14px;transition:.4s}
 header.s{background:#fffffff0;backdrop-filter:blur(8px);box-shadow:0 1px 0 #0000000f}
 header .w{display:flex;justify-content:space-between;align-items:center}
@@ -40,14 +40,18 @@ header .w{display:flex;justify-content:space-between;align-items:center}
 .mr.b{display:none;animation-name:mq2}.mr+.mr{margin-top:14px}
 .mr span{margin:0 28px}.mr span::after{content:"✦";color:var(--gold);margin-left:56px;font-style:normal;font-size:14px}
 @keyframes mq{to{transform:translateX(-50%)}}@keyframes mq2{from{transform:translateX(-50%)}to{transform:translateX(0)}}
-@media(max-width:820px){.mq{padding:14px 0}.mr{font-size:22px;animation-duration:38s}.mr.b{display:flex;animation-duration:44s}.mr span{margin:0 16px}.mr span::after{margin-left:32px}}
+.mob{display:none}
+@media(max-width:820px){.mq{padding:18px 0}.mr{display:none!important}.mob{display:grid;gap:12px}
+.mob div{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 12px;padding:0 12px;font:italic clamp(17px,5vw,21px)/1.35 var(--serif);animation:dl 5s ease-in-out infinite alternate}
+.mob div+div{animation-name:dr}.mob span:not(:last-child)::after{content:"✦";color:var(--gold);font-style:normal;font-size:11px;margin-left:12px}}
+@keyframes dl{from{transform:translateX(-8px)}to{transform:translateX(8px)}}@keyframes dr{from{transform:translateX(8px)}to{transform:translateX(-8px)}}
 section{padding:96px 0}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:44px}
 .card{border:1px solid var(--gold2);border-radius:20px;padding:28px 24px;background:#fff;transition:.4s}
 .card:hover{background:var(--rose);transform:translateY(-6px)}
-.card i{font:italic 34px var(--serif);color:var(--gold)}.card h3{font:500 25px var(--serif);margin:6px 0}.card p{color:var(--mut);font-size:14.5px}
+.card i{font:italic 34px var(--serif);color:var(--goldt)}.card h3{font:500 25px var(--serif);margin:6px 0}.card p{color:var(--mut);font-size:14.5px}
 .q{background:var(--terra);color:#fff;text-align:center;padding:110px 0}
-.q p{font:400 clamp(28px,4.4vw,52px)/1.2 var(--serif);max-width:860px;margin:auto}.q small{display:block;margin-top:24px;letter-spacing:.2em;text-transform:uppercase;font-size:12px;color:var(--gold2)}
+.q p{font:400 clamp(28px,4.4vw,52px)/1.2 var(--serif);max-width:860px;margin:auto}.q small{display:block;margin-top:24px;letter-spacing:.2em;text-transform:uppercase;font-size:12px;color:#fff}
 .vids{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:26px;margin-top:44px}
 .v{border-radius:22px;overflow:hidden;background:var(--rose);transition:transform .4s}.v:hover{transform:translateY(-6px) rotate(-.6deg)}
 .v video{width:100%;aspect-ratio:9/16;object-fit:cover;background:#000}.v p{padding:18px 20px 22px;font-size:14.5px;color:var(--ink)}
@@ -76,10 +80,17 @@ footer{padding:34px 0;text-align:center;font-size:13px;color:var(--mut);border-t
 @keyframes sh2{to{background-position:-60% 0}}
 #pre p{font:italic 22px var(--serif);letter-spacing:.06em;color:var(--mut);opacity:0;animation:fd 1s 1.4s forwards}
 body:not(.go) .hero *{animation-play-state:paused}
+.bk label{display:block;font-size:12px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin:18px 0 6px}
+.bk input,.bk select,.bk textarea{width:100%;padding:13px 14px;border:1px solid var(--gold2);border-radius:12px;font:inherit;margin-bottom:8px;background:#fff;color:var(--ink)}
+.bk .ck{display:flex;gap:10px;align-items:flex-start;text-transform:none;letter-spacing:0;font-size:13.5px;font-weight:400}.bk .ck input{width:auto;margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid var(--gold2);background:#fff;color:var(--ink);border-radius:99px;padding:9px 16px;font:inherit;cursor:pointer}.chip.on{background:var(--terra);color:#fff;border-color:var(--terra)}
+.bkm{color:var(--terra);min-height:22px;margin:6px 0}.ok{text-align:center;padding:20px}.bk .btn{border:0;cursor:pointer;font:inherit;font-weight:600;margin-top:8px}.st{color:var(--gold);letter-spacing:.1em}
+#rvl{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:36px}.rvw{border:1px solid var(--gold2);border-radius:18px;padding:20px;background:#fff}.rvw p{margin:8px 0;color:var(--mut)}.narrow{max-width:620px;margin:auto}
+.mdl{position:fixed;inset:0;z-index:60;background:#0008;display:none;align-items:flex-end;justify-content:center}.mdl.on{display:flex}
+.mbox{background:#fff;width:min(560px,100%);max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px 22px calc(26px + env(safe-area-inset-bottom,0px))}
+@media(min-width:700px){.mdl{align-items:center}.mbox{border-radius:22px}}.mtabs{display:flex;gap:8px;margin-bottom:6px}
 </style></head><body><div id="pre"><div class="dr"><i></i></div><p>Dra. Camila Migueis</p></div>
-<script>try{var l=localStorage.getItem('lg');if(l)document.documentElement.style.setProperty('--logo','url('+l+')')}catch(e){}
-var t0=performance.now(),done=function(){setTimeout(function(){document.getElementById('pre').classList.add('out');document.body.classList.add('go')},Math.max(0,2700-(performance.now()-t0)))};
-document.readyState=='complete'?done():addEventListener('load',done);setTimeout(done,6000)</script>
+<script src="boot.js"></script>
 <header id="hd"><div class="w"><div class="logo"><img data-m="logo" src="assets/logo.png" alt="Logo Dra. Camila Migueis" style="height:46px;width:46px;display:inline-block;vertical-align:middle;margin-right:10px"><span data-k="nome" data-l="Nome no topo">Camila Migueis</span></div><a class="btn" data-wa="topo" data-k="b_topo" data-l="Botão do menu" href="#" style="padding:10px 20px;font-size:14px">Agendar</a></div></header>
 
 <main>
@@ -88,13 +99,13 @@ document.readyState=='complete'?done():addEventListener('load',done);setTimeout(
 <div class="eye" data-k="eye" data-l="Chamada pequena (topo do título)">Dra. Camila Migueis · Harmonização Orofacial</div>
 <h1><span class="ln"><span data-k="h1a" data-l="Título, linha 1">Harmonização</span></span><span class="ln"><span data-k="h1b" data-l="Título, linha 2">não te padroniza.</span></span><span class="ln"><span data-k="h1c" data-l="Título, linha 3 (*asteriscos* destacam)"><em>Te revela.</em></span></span></h1>
 <p class="lead" data-k="lead" data-l="Texto do topo">Um plano feito sob medida para o seu rosto, no seu tempo, com naturalidade e segurança em cada etapa.</p>
-<a class="btn" data-wa="hero" data-k="b_hero" data-l="Botão do topo" href="#">Agendar minha avaliação</a></div>
+<a class="btn" data-wa="hero" data-k="b_hero" data-l="Botão do topo" href="#">Agendar minha avaliação</a> <a href="#" data-open="agendar" style="margin-left:14px;color:var(--terra);font-weight:600;text-decoration:none">ou agende online ↓</a></div>
 <div class="ph" id="ph"><img data-m="portrait" src="assets/portrait.jpg" alt="Dra. Camila Migueis"></div></div></div>
 
-<div class="mq"><div class="mr" id="mq1"></div><div class="mr b" id="mq2"></div></div>
+<div class="mq"><div class="mr" id="mq1"><span>Lifting temporal</span><span>Botox</span><span>Preenchimento</span><span>Rinomodelação</span><span>Fios de PDO</span><span>Protocoll</span><span>Lifting temporal</span><span>Botox</span><span>Preenchimento</span><span>Rinomodelação</span><span>Fios de PDO</span><span>Protocoll</span></div><div class="mob"><div id="mm1"><span>Lifting temporal</span><span>Botox</span><span>Preenchimento</span></div><div id="mm2"><span>Rinomodelação</span><span>Fios de PDO</span><span>Protocoll</span></div></div></div>
 
 <section><div class="w"><div data-k="e1" data-l="Chamada pequena: Tratamentos" class="eye rv">Tratamentos</div><h2 class="rv" data-k="h_trat" data-l="Título tratamentos">Cada rosto pede um <em>plano próprio.</em></h2>
-<div class="grid" id="tr"></div></div></section>
+<div class="grid" id="tr"><div class="card"><i>01</i><h3>Lifting temporal</h3><p>Uma abordagem delicada para o terço superior do rosto, avaliada caso a caso.</p></div><div class="card"><i>02</i><h3>Botox</h3><p>Suaviza linhas de expressão preservando a sua naturalidade.</p></div><div class="card"><i>03</i><h3>Preenchimento</h3><p>Equilíbrio de contornos e volumes, respeitando as proporções do seu rosto.</p></div><div class="card"><i>04</i><h3>Rinomodelação</h3><p>Planejamento cuidadoso do perfil, sempre com avaliação prévia.</p></div><div class="card"><i>05</i><h3>Fios de PDO</h3><p>Indicados após avaliação individual, para quem busca sustentação da pele.</p></div><div class="card"><i>06</i><h3>Protocoll</h3><p>Cuidado com a qualidade da pele, em um protocolo pensado para você.</p></div></div></div></section>
 
 <div class="q"><div class="w rv"><p data-k="quote" data-l="Frase de destaque">A harmonização precisa ser personalizada e construída aos poucos, <em style="color:var(--gold2)">não é receita de bolo.</em></p><small data-k="q_aut" data-l="Assinatura da frase">Dra. Camila Migueis</small></div></div>
 
@@ -108,9 +119,11 @@ document.readyState=='complete'?done():addEventListener('load',done);setTimeout(
 
 <section><div class="w two"><div class="rv"><div data-k="e4" data-l="Chamada pequena: Sobre" class="eye">Sobre</div><h2 data-k="h_sob" data-l="Título sobre">Eu cuido do seu rosto como cuido do <em>meu.</em></h2><p data-k="t_sob" data-l="Texto sobre">Sou a Dra. Camila Migueis, dentista (CRO/MS 3323) com atuação em Harmonização Orofacial. Acredito em cuidado constante, escolhas conscientes e resultados que parecem com você.</p></div><img class="rv" data-m="p47" src="assets/p47.jpg" alt="Dra. Camila Migueis" loading="lazy"></div></section>
 
-<section class="cta"><div class="w rv"><div data-k="e5" data-l="Chamada pequena: Agende" class="eye">Agende</div><h2 data-k="h_fim" data-l="Título final">Vamos planejar o seu <em>cuidado?</em></h2><p data-k="t_fim" data-l="Texto final">Fale comigo pelo WhatsApp e agende a sua avaliação. Sem pressa e sem compromisso.</p><a class="btn" data-wa="final" data-k="b_fim" data-l="Botão final" href="#">Agendar pelo WhatsApp</a></div></section>
+<section id="avaliacoes" class="alt"><div class="w narrow"><div class="eye" data-k="e_ex" data-l="Chamada pequena: Avaliações">Sua experiência</div><h2 data-k="h_ex" data-l="Título das avaliações">Conte como foi a sua <em>experiência.</em></h2><div id="rvl" style="margin-top:24px"></div><a class="btn" href="#" data-open="avaliar">Deixar minha avaliação</a></div></section>
+<section class="cta"><div class="w rv"><div data-k="e5" data-l="Chamada pequena: Agende" class="eye">Agende</div><h2 data-k="h_fim" data-l="Título final">Vamos planejar o seu <em>cuidado?</em></h2><p data-k="t_fim" data-l="Texto final">Fale comigo pelo WhatsApp e agende a sua avaliação. Sem pressa e sem compromisso.</p><a class="btn" data-wa="final" data-k="b_fim" data-l="Botão final" href="#">Agendar pelo WhatsApp</a><p style="margin-top:16px"><a href="#" data-open="agendar" style="color:var(--terra);font-weight:600">ou agende online, sem sair da página</a></p></div></section>
 </main>
 <footer><div class="w"><img data-m="logo2" src="assets/logo.png" alt="" style="height:60px;margin:0 auto 10px"><span data-k="rod" data-l="Rodapé">Dra. Camila Migueis · Dentista CRO/MS 3323 · Harmonização Orofacial<br>Resultados variam de pessoa para pessoa. Todo procedimento exige avaliação individual.</span></div></footer>
 <a class="fab" data-wa="flutuante" href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.200-.7-2.700-1.100-4.400-3.800-4.500-4-.1-.1-1.100-1.400-1.100-2.700s.7-1.900.9-2.200c.2-.2.5-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.3.400-.4.400c-.1.100-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.100 1 2.100 1.300 2.400 1.400.3.100.5.100.6-.1l.8-1c.2-.3.400-.2.600-.1l1.900.9c.3.100.5.200.5.300.1.200.1.800-.1 1.400z"/></svg></a>
 
-<script type="module" src="main.js"></script></body></html>
+<script type="module" src="main.js"></script>
+<script type="module" src="agendar.js"></script></body></html>
