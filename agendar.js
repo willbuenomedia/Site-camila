@@ -2,7 +2,7 @@ import {mk,h} from './db.js';
 const sb=mk('site',false),$=s=>document.querySelector(s),TZ='America/Campo_Grande',L=(d,o)=>new Date(d).toLocaleString('pt-BR',{timeZone:TZ,...o});
 const ERR=m=>/indispon/.test(m)?'Esse horário acabou de ser ocupado. Escolha outro.':/limite|duplicada/.test(m)?'Você já enviou solicitações recentemente. Aguarde a recepção ou fale pelo WhatsApp.':/telefone/.test(m)?'Confira o telefone (com DDD).':'Não foi possível enviar agora. Tente pelo WhatsApp.';
 const chip=(t,on,f)=>h('button',{type:'button',className:'chip'+(on?' on':''),textContent:t,onclick:f}),ok=(t,p)=>h('div',{className:'ok'},h('h3',{textContent:t}),h('p',{textContent:p}));
-const body=h('div',{className:'bk'}),tabs=h('div',{className:'mtabs'}),ov=h('div',{className:'mdl',onclick:e=>e.target==ov&&close()},h('div',{className:'mbox',role:'dialog'},tabs,body));document.body.append(ov);
+const body=h('div',{className:'bk'}),tabs=h('div',{className:'mtabs'}),ov=h('div',{className:'mdl',onclick:e=>{if(e.target==ov)close()}},h('div',{className:'mbox',role:'dialog'},tabs,body));document.body.append(ov);
 const close=()=>{ov.classList.remove('on');document.body.style.overflow=''};
 function open(t){ov.classList.add('on');document.body.style.overflow='hidden';
   tabs.replaceChildren(...[['agendar','Agendar'],['avaliar','Avaliar']].map(([k,n])=>chip(n,k==t,()=>open(k))),h('button',{type:'button',className:'chip',textContent:'✕',title:'Fechar',style:'margin-left:auto',onclick:close}));

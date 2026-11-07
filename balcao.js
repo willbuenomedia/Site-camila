@@ -1,4 +1,4 @@
-import {mk,h,ping} from './db.js';
+import {mk,h,ping,why} from './db.js';
 const sb=mk('balcao',true);
 const $=s=>document.querySelector(s),app=$('#app');
 const TZ='America/Campo_Grande',L=(d,o)=>new Date(d).toLocaleString('pt-BR',{timeZone:TZ,...o});
@@ -48,9 +48,9 @@ async function load(){ping(sb,1);const [a,r]=await Promise.all([sb.from('appoint
 const showInst=()=>{const i=$('#inst');ev&&i&&i.replaceChildren(btn('Instalar aplicativo',()=>{ev.prompt();ev=null;i.replaceChildren()},'wa'))};
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();ev=e;showInst()});
 function start(){app.replaceChildren(h('header',{},h('b',{textContent:'Clínica Camila Migueis · Balcão'}),h('span',{id:'inst'}),btn('Sair',async()=>{await sb.auth.signOut();location.reload()},'g')),h('nav',{id:'nav'}),h('main',{id:'view'}));showInst();load();setInterval(()=>{if(!$('#md')&&tab!='disp')load()},60000)}
-function login(msg=''){const e=h('input',{type:'email',placeholder:'E-mail',autocomplete:'username'}),p=h('input',{type:'password',placeholder:'Senha',autocomplete:'current-password'}),go=async()=>{const {error}=await sb.auth.signInWithPassword({email:e.value,password:p.value});error?login('E-mail ou senha incorretos.'):boot()};p.onkeydown=x=>x.key=='Enter'&&go();
+function login(msg=''){const e=h('input',{type:'email',placeholder:'E-mail',autocomplete:'username'}),p=h('input',{type:'password',placeholder:'Senha',autocomplete:'current-password'}),go=async()=>{const {error}=await sb.auth.signInWithPassword({email:e.value.trim(),password:p.value});error?login(why(error)):boot()};p.onkeydown=x=>{if(x.key=='Enter')go()};
   app.replaceChildren(h('div',{className:'lg'},h('h1',{textContent:'Balcão'}),h('p',{className:'mut',textContent:'Clínica Camila Migueis · acesso da recepção'}),h('p',{className:'err',textContent:msg}),e,p,btn('Entrar',go)))}
 async function boot(){if(!sb)return app.replaceChildren(h('p',{textContent:'Configure o config.js com a URL e a chave do Supabase.'}));
-  const {data:{session}}=await sb.auth.getSession();if(!session)return login();const {data:ok}=await sb.rpc('is_staff');if(!ok){await sb.auth.signOut();return login('Este usuário não tem acesso ao balcão.')}start()}
+  const {data:{session}}=await sb.auth.getSession();if(!session)return login();const {data:ok}=await sb.rpc('is_staff');if(!ok){await sb.auth.signOut();return login('Login correto, mas este e-mail ainda não está cadastrado como atendente (tabela staff).')}start()}
 if('serviceWorker' in navigator){const had=!!navigator.serviceWorker.controller;navigator.serviceWorker.register('/sw.js').then(r=>addEventListener('focus',()=>r.update()));navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had)location.reload()})}
 boot();

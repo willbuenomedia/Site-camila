@@ -1,5 +1,5 @@
 
-import {mk,h,DEF,ping} from './db.js';
+import {mk,h,DEF,ping,why} from './db.js';
 const sb=mk('admin',true);
 const $=s=>document.querySelector(s),app=$('#app');
 const flash=m=>{const t=$('#t');t.textContent=m;t.classList.add('on');if(/^Salvo/.test(m))ping(sb,1);setTimeout(()=>t.classList.remove('on'),2200)};
@@ -9,10 +9,10 @@ async function init(){if(!sb)return app.textContent='Configure o config.js com a
 function login(){
   const E=h('input',{type:'email',placeholder:'E-mail'}),P=h('input',{type:'password',placeholder:'Senha'});
   app.replaceChildren(h('h1',{textContent:'Painel da página'}),E,h('br'),h('br'),P,h('br'),h('br'),
-    h('button',{textContent:'Entrar',onclick:async()=>{const {error}=await sb.auth.signInWithPassword({email:E.value,password:P.value});error?alert('E-mail ou senha incorretos'):panel()}}));
+    h('button',{textContent:'Entrar',onclick:async()=>{const {error}=await sb.auth.signInWithPassword({email:E.value.trim(),password:P.value});error?alert(why(error)):panel()}}));
 }
 async function panel(){
-  const {data:okA}=await sb.rpc('is_admin');if(!okA){alert('Este usuário não tem acesso ao painel de edição.');await sb.auth.signOut();return login()}ping(sb,1);
+  const {data:okA}=await sb.rpc('is_admin');if(!okA){alert('Login correto, mas este e-mail ainda não está cadastrado como admin (tabela admins).');await sb.auth.signOut();return login()}ping(sb,1);
   const [pg,{data:rows}]=await Promise.all([fetch('./index.html').then(r=>r.text()),sb.from('site_content').select('key,value')]);
   const C=Object.fromEntries((rows||[]).map(r=>[r.key,r.value])),doc=new DOMParser().parseFromString(pg,'text/html');
   const put=async(key,value)=>{const {error}=await sb.from('site_content').upsert({key,value,updated_at:new Date().toISOString()});flash(error?'Não foi possível salvar':'Salvo ✓');return !error};
