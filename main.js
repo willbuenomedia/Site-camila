@@ -4,7 +4,7 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmt=s=>esc(s).replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
 const obs=()=>window.__obs&&window.__obs();
-const cards=l=>{$('#tr').innerHTML=l.map((t,i)=>`<div class="card rv"><i>${String(i+1).padStart(2,'0')}</i><h3>${esc(t.title)}</h3><p>${esc(t.descr)}</p></div>`).join('');const m=l.map(t=>`<span>${esc(t.title)}</span>`).join('');const h=Math.ceil(l.length/2),sp=a=>a.map(t=>`<span>${esc(t.title)}</span>`).join('');$('#mq1').innerHTML=m+m;$('#mm1').innerHTML=sp(l.slice(0,h));$('#mm2').innerHTML=sp(l.slice(h));obs()};
+const cards=l=>{$('#tr').innerHTML=l.map((t,i)=>`<div class="card rv"><i>${t.image_url&&/^https:\/\//.test(t.image_url)?`<img src="${esc(t.image_url)}" alt="" loading="lazy">`:String(i+1).padStart(2,'0')}</i><h3>${esc(t.title)}</h3><p>${esc(t.descr)}</p></div>`).join('');obs()};
 let wa='5567996397101',msg='Olá, Dra. Camila! Vim pelo site e gostaria de agendar uma avaliação.';
 const links=()=>$$('[data-wa]').forEach(a=>a.href=`https://wa.me/${wa}?text=${encodeURIComponent(msg)}&utm_source=site&utm_medium=${a.dataset.wa}`);
 cards(DEF);links();obs();
@@ -12,7 +12,7 @@ try{
   const {data}=await sb.from('site_content').select('key,value'),C=Object.fromEntries((data||[]).map(r=>[r.key,r.value]));
   $$('[data-k]').forEach(e=>C[e.dataset.k]!=null&&(e.innerHTML=fmt(C[e.dataset.k])));
   $$('[data-m]').forEach(e=>{const u=C[e.dataset.m];if(u){e.src=u;e.removeAttribute('poster');e.load&&e.load()}});
-  wa=C.wa||wa;msg=C.msg||msg;links();
+  wa=C.wa||wa;msg=C.msg||msg;links();document.dispatchEvent(new Event('cm:content'));
   try{C.logo?localStorage.setItem('lg',C.logo):localStorage.removeItem('lg')}catch(e){}
   const {data:T}=await sb.from('treatments').select('*').order('pos');
   T&&T.length&&cards(T);ping(sb);

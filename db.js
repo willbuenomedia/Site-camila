@@ -1,6 +1,8 @@
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
-// Só dados PÚBLICOS (URL + chave anon). Aceita o config.js novo e o antigo.
-let u,k;try{const C=await import('./config.js');u=C.SUPABASE_URL||(C.sb&&C.sb.supabaseUrl);k=C.SUPABASE_KEY||(C.sb&&C.sb.supabaseKey)}catch(e){}
+// Só dados PÚBLICOS. A URL e a chave vêm das variáveis do Vercel (/api/config), sem ficar escritas no repositório. config.js é só reserva.
+let u,k;
+try{const r=await fetch('/api/config',{cache:'no-store'});if(r.ok){const j=await r.json();u=j.url;k=j.key}}catch(e){}
+if(!(u&&k)){try{const C=await import('./config.js');u=C.SUPABASE_URL||(C.sb&&C.sb.supabaseUrl);k=C.SUPABASE_KEY||(C.sb&&C.sb.supabaseKey)}catch(e){}}
 // cada painel tem sessão própria (site público não guarda sessão)
 // Chaves novas (sb_publishable_) não são JWT: não as enviamos no cabeçalho Authorization (o login do usuário continua usando o JWT dele).
 export const mk=(name,persist)=>{if(!(u&&k&&/^https:\/\//.test(u)))return null;
