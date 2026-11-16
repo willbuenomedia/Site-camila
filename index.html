@@ -118,6 +118,36 @@ header .hdr{transition:background .35s,border-color .35s}header.dk .hdr{backgrou
 .ho.dk{background:var(--brown)}.ho.dk svg{stroke:var(--gold)}.ho.wz{background:#1f9d57}
 body.cb-on .hub{display:none}
 
+/* ===== v5: movimento e hover ===== */
+body::before{content:"";position:fixed;inset:0;z-index:90;pointer-events:none;opacity:.07;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .23 0 0 0 0 .16 0 0 0 0 .14 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+#pg{position:fixed;left:0;top:0;height:3px;width:100%;z-index:60;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--rg),var(--gold),var(--rg2));pointer-events:none}
+.menu a{position:relative}.menu a::after{content:"";position:absolute;left:50%;right:50%;bottom:-6px;height:1.5px;background:var(--rg);transition:left .35s cubic-bezier(.2,.8,.2,1),right .35s cubic-bezier(.2,.8,.2,1)}.menu a:hover::after{left:0;right:0}
+.sp em .wd{background:linear-gradient(100deg,var(--rg) 20%,#d9a86f 45%,var(--rg2) 55%,var(--rg) 80%) 0 0/250% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:gs 7s linear infinite}
+.dark .sp em .wd,.quote .sp em .wd{background-image:linear-gradient(100deg,var(--rg2) 20%,var(--g2) 45%,#f3c9c4 55%,var(--rg2) 80%)}
+@keyframes gs{to{background-position:-250% 0}}
+.pill{position:relative}.pill::before{transition:transform .5s}.pill:hover::before{transform:scale(1.6)}
+.hcard{animation:bob 6s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-8px)}}
+.hero .pop img,.hero .pop video{will-change:transform}
+.card i,.card img{transition:transform .8s cubic-bezier(.2,.8,.2,1)}.card i{overflow:hidden}
+.card h3{position:relative;display:inline-block}.card h3::after{content:"";position:absolute;left:0;bottom:-3px;height:1.5px;width:100%;background:linear-gradient(90deg,var(--gold),var(--rg));transform:scaleX(0);transform-origin:0 50%;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.mq{overflow:hidden;padding:26px 0;border-block:1px solid #e0c9bf80;background:linear-gradient(90deg,var(--bg),var(--bg2),var(--bg))}
+.mt{display:flex;width:max-content;animation:mqm 38s linear infinite}.mt span{flex:none;padding-right:.6em;white-space:nowrap;font:italic 400 clamp(26px,4.2vw,46px)/1 var(--serif);color:var(--rg);opacity:.85}.mq:hover .mt{animation-play-state:paused}
+@keyframes mqm{to{transform:translateX(-50%)}}
+.cur{position:fixed;left:0;top:0;z-index:95;width:380px;height:380px;margin:-190px 0 0 -190px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,#c98f8a30,#c8a46018 40%,transparent 68%);opacity:0;transition:opacity .5s;will-change:transform}.cur.on{opacity:1}
+.tilt{transform-style:preserve-3d;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+@media(hover:hover){
+.card:hover i,.card:hover img{transform:scale(1.09)}.card:hover h3::after{transform:scaleX(1)}
+.card{transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s,border-color .5s}.card:hover{box-shadow:0 26px 60px #a45d6826}
+.vf{transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s}.vf:hover{transform:translateY(-6px) scale(1.012);box-shadow:0 28px 60px #0006}.vf:hover .pl{transform:scale(1.14)}
+.pop img{transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}.pop:hover img{transform:scale(1.045)}
+.btn{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.ho{transition:transform .3s cubic-bezier(.2,.8,.2,1),filter .3s}.ho:hover{transform:translateX(-4px);filter:brightness(1.08)}
+.trust span{transition:color .3s,transform .3s}.trust span:hover{color:var(--rg);transform:translateY(-2px)}
+.ai{transition:transform .35s,box-shadow .35s,background .35s}.ai:hover{transform:translateX(4px)}
+.lnk{transition:letter-spacing .35s,color .3s}.lnk:hover{letter-spacing:.04em}
+.rvw{transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s}.rvw:hover{transform:translateY(-5px);box-shadow:0 20px 44px #3a2a231a}
+}
+
 @media(max-width:900px){
 .w{padding:0 20px}html{scroll-padding-top:76px}
 header{top:calc(10px + env(safe-area-inset-top,0px))}.hdr{padding:6px 8px 6px 14px;gap:10px}.logo{font-size:19px}.logo img{height:32px;width:32px}.menu{display:none}.btn.sm{padding:9px 16px;font-size:13px}
@@ -142,7 +172,7 @@ footer{padding-top:42px}.mark{font-size:13.2vw;margin-bottom:22px}footer .row{fl
 .pop{clip-path:none}.pop img,.pop video{filter:none;transform:scale(1.06)}
 .hub{right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px))}.hb{width:54px;height:54px}.hm{width:min(250px,calc(100vw - 28px))}}
 @media(max-width:359px){.logo span{display:none}h1{font-size:32px}}
-@media(prefers-reduced-motion:reduce){.btn::after,.hb{animation:none}.rv,.sp .wd,.pop img,.pop video{filter:none!important;transform:none!important}.pop{clip-path:none!important}.ln>span{transform:none;opacity:0;animation:fd .6s .1s forwards}}
+@media(prefers-reduced-motion:reduce){.hcard,.mt,.sp em .wd{animation:none!important}.cur,#pg{display:none}.card:hover i,.card:hover img,.vf:hover,.pop:hover img{transform:none!important}.btn::after,.hb{animation:none}.rv,.sp .wd,.pop img,.pop video{filter:none!important;transform:none!important}.pop{clip-path:none!important}.ln>span{transform:none;opacity:0;animation:fd .6s .1s forwards}}
 </style></head><body>
 <div id="pre"><div class="dr"><i></i></div><p>Dra. Camila Migueis</p></div>
 <script src="boot.js"></script>
@@ -196,6 +226,8 @@ footer{padding-top:42px}.mark{font-size:13.2vw;margin-bottom:22px}footer .row{fl
 <span hidden data-k="loc_maps" data-l="Link do Google Maps (opcional; vazio usa o endereço)"></span><span hidden data-k="loc_insta" data-l="Instagram (ex.: @camilamigueis)"></span><span hidden data-k="loc_pag" data-l="Formas de pagamento (aparece só nas respostas do chat)"></span>
 <div class="bt rv"><a class="btn" id="maplnk" href="#" target="_blank" rel="noopener">Abrir no Maps ↗</a><a class="lnk" id="instalnk" hidden href="#" target="_blank" rel="noopener">Instagram ↗</a></div></div>
 <div class="rv"><iframe id="mp" title="Mapa da clínica" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div></div></section>
+
+<div class="mq" aria-hidden="true"><div class="mt" id="mt"><span data-g="Faixa em movimento" data-k="marq" data-l="Palavras que passam na faixa (separe com ·)">Naturalidade · Segurança · Planejamento · Cuidado · Elegância · </span></div></div>
 
 <section class="cta"><div class="w"><span class="pill rv" data-g="Chamada final" data-k="e5" data-l="Chamada pequena: Agende">Agende</span><h2 class="sp" data-k="h_fim" data-l="Título final">Vamos planejar o seu <em>cuidado?</em></h2><p class="rv" data-k="t_fim" data-l="Texto final">Fale comigo pelo WhatsApp e agende a sua avaliação. Sem pressa e sem compromisso.</p>
 <div class="hcta rv"><a class="btn" data-wa="final" data-k="b_fim" data-l="Botão final" href="#">Agendar pelo WhatsApp</a><a class="lnk" href="#" data-open="agendar">ou agende online, sem sair da página ↗</a></div></div></section>
