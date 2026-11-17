@@ -17,7 +17,7 @@ try{
   const E=(C.loc_end||'').trim(),sc=$('#onde');if(sc){sc.hidden=!E;if(E){const q=encodeURIComponent(E.replace(/\s*\n\s*/g,', '));$('#mp').src='https://www.google.com/maps?q='+q+'&output=embed';$('#maplnk').href=/^https:\/\//.test((C.loc_maps||'').trim())?C.loc_maps.trim():'https://www.google.com/maps/search/?api=1&query='+q;const ig=(C.loc_insta||'').trim().replace(/^@/,'').replace(/[^\w.]/g,''),il=$('#instalnk');il.hidden=!ig;if(ig)il.href='https://instagram.com/'+ig}}
   $$('#faq .ai').forEach(a=>{a.hidden=!a.querySelector('b').textContent.trim()});const fq=$('#perguntas');fq&&(fq.hidden=!$$('#faq .ai').some(a=>!a.hidden));
   const g=(C.g_link||'').trim(),gl=$('#glink');if(gl){gl.hidden=!/^https:\/\//.test(g);if(!gl.hidden)gl.href=g}
-  wa=C.wa||wa;msg=C.msg||msg;links();document.dispatchEvent(new Event('cm:content'));
+  wa=C.wa||wa;msg=C.msg||msg;links();window.CM_IDS={px:(C.pixel_id||'').trim(),ga:(C.ga_id||'').trim()};document.dispatchEvent(new Event('cm:content'));
   try{C.logo?localStorage.setItem('lg',C.logo):localStorage.removeItem('lg')}catch(e){}
   const {data:T}=await sb.from('treatments').select('*').order('pos');
   T&&T.length&&cards(T);ping(sb);
