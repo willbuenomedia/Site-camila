@@ -36,3 +36,10 @@ function send(t){t=String(t||'').trim().slice(0,200);if(!t)return;inp.value='';a
 async function open(){box.classList.add('on');document.body.classList.add('cb-on');await load();if(!msgs.children.length){bot(G,()=>chips(topics(),x=>send('Quero saber sobre '+x)));ping(sb)}setTimeout(()=>inp.focus({preventScroll:true}),50)}
 function close(){box.classList.remove('on');document.body.classList.remove('cb-on')}
 document.addEventListener('click',e=>{if(e.target.closest('[data-chat]'))open()});document.addEventListener('keydown',e=>{if(e.key=='Escape'&&box.classList.contains('on'))close()});
+
+// convite da assistente: uma vez por visita, depois de alguns segundos e só depois do aviso de cookies sumir
+try{const hub=document.getElementById('hub');if(hub&&!sessionStorage.getItem('cm-tz')){const show=()=>{
+  const x=()=>{t.classList.add('out');setTimeout(()=>t.remove(),400);try{sessionStorage.setItem('cm-tz','1')}catch(e){}};
+  const t=h('div',{id:'tz',role:'status'},h('img',{src:'assets/avatar.jpg',alt:''}),h('div',{},h('b',{textContent:'Posso ajudar?'}),h('span',{textContent:'Tire dúvidas sobre os procedimentos agora.'})),h('button',{type:'button','aria-label':'Fechar',textContent:'×',onclick:e=>{e.stopPropagation();x()}}));
+  t.onclick=()=>{x();open()};document.body.append(t);setTimeout(()=>t.isConnected&&x(),16000)};
+  let n=0;const tick=()=>{if(document.body.classList.contains('cb-on')||hub.classList.contains('on'))return;if(document.getElementById('ck')&&n++<40)return setTimeout(tick,1000);show()};setTimeout(tick,6000)}}catch(e){}
