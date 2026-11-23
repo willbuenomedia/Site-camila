@@ -1,4 +1,4 @@
-import {mk,h,ping,why,forgot,recovery} from './db.js';
+import {mk,h,ping,why,forgot,recovery} from './db.js?v=9';
 const sb=mk('balcao',true);
 const $=s=>document.querySelector(s),app=$('#app');
 const TZ='America/Campo_Grande',L=(d,o)=>new Date(d).toLocaleString('pt-BR',{timeZone:TZ,...o});

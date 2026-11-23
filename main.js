@@ -1,4 +1,4 @@
-import {mk,DEF,ping} from './db.js';
+import {mk,DEF,ping} from './db.js?v=9';
 const sb=mk('site',false);
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));

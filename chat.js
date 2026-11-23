@@ -1,6 +1,6 @@
-import {mk,h,ping} from './db.js';
-import {reply,locEntries} from './chatcore.js';
-import {KB_SEED} from './kbseed.js';
+import {mk,h,ping} from './db.js?v=9';
+import {reply,locEntries} from './chatcore.js?v=9';
+import {KB_SEED} from './kbseed.js?v=9';
 const sb=mk('site',false);
 let E=KB_SEED.filter(e=>e.active),wa='5567996397101',G='Olá! Sou a assistente virtual da Dra. Camila Migueis. Posso tirar dúvidas sobre os procedimentos, a avaliação e o atendimento. Sobre o que você quer saber?',
   FB='Não tenho uma informação segura sobre isso para responder por aqui. O melhor é falar direto com a equipe da Dra. Camila no WhatsApp, que ela responde com cuidado.',loaded=0;

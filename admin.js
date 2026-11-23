@@ -1,6 +1,6 @@
-import {mk,h,DEF,ping,why,forgot,recovery} from './db.js';
-import {KB_SEED} from './kbseed.js';
-import {reply,locEntries} from './chatcore.js';
+import {mk,h,DEF,ping,why,forgot,recovery} from './db.js?v=9';
+import {KB_SEED} from './kbseed.js?v=9';
+import {reply,locEntries} from './chatcore.js?v=9';
 const sb=mk('admin',true);
 const $=s=>document.querySelector(s),app=$('#app');
 const flash=m=>{const t=$('#t');t.textContent=m;t.classList.add('on');if(/^Salvo/.test(m))ping(sb,1);clearTimeout(flash.k);flash.k=setTimeout(()=>t.classList.remove('on'),2200)};
