@@ -1,4 +1,4 @@
-// Backup anti-pausa. Chamado pelo Vercel a cada 3 dias (vercel.json).
+// Backup anti-pausa. Chamado pelo Vercel todo dia (vercel.json).
 // Usa as variáveis SUPABASE_URL e SUPABASE_KEY (públicas) e, se faltarem, lê o config.js do próprio site.
 // A resposta mostra o MOTIVO de uma falha (sem revelar chaves).
 export default async function handler(req,res){
