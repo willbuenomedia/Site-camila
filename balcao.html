@@ -1,15 +1,16 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><meta name="theme-color" content="#b0604a"><title>Balcão · Clínica Camila Migueis</title>
-<link rel="manifest" href="/manifest.json"><link rel="icon" href="assets/icons/icon-192.png"><link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="manifest" href="/manifest.json"><link rel="icon" href="assets/icons/icon-192.png"><link rel="apple-touch-icon" href="assets/icons/icon-192.png">
 <style>
-:root{--ink:#3b2f2a;--mut:#6b6764;--gold2:#e6d3a8;--rose:#f5e4df;--terra:#b0604a}*{box-sizing:border-box}
-body{margin:0;font:16px/1.5 system-ui,Segoe UI,sans-serif;color:var(--ink);background:#fdfaf9}.mut{color:var(--mut)}.err{color:#b3261e;min-height:22px}
-header{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 20px;background:#fff;border-bottom:1px solid var(--gold2)}header b{flex:1}
-nav{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:10px 20px;background:var(--rose)}nav button{flex:none;white-space:nowrap;background:#fff;color:var(--ink);border:1px solid var(--gold2)}nav button.on{background:var(--terra);color:#fff;border-color:var(--terra)}
-main{max-width:1040px;margin:auto;padding:10px 20px 80px}h2{font-family:Georgia,serif;font-weight:500}h3{margin:22px 0 6px;text-transform:capitalize}
-button{background:var(--terra);color:#fff;border:0;border-radius:99px;padding:9px 18px;font:inherit;font-weight:600;cursor:pointer;margin:3px}button.g{background:#fff;color:var(--ink);border:1px solid var(--gold2)}button.wa{background:#1f9d55}
-.card{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;background:#fff;border:1px solid var(--gold2);border-radius:14px;padding:12px 16px;margin:8px 0}.ac{display:flex;flex-wrap:wrap}
-.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}input,select,textarea{padding:9px 12px;border:1px solid var(--gold2);border-radius:10px;font:inherit;max-width:100%}.star{color:#c9a86a}
-.lg{max-width:360px;margin:12vh auto;display:grid;gap:10px;padding:0 20px}.lg h1{font-family:Georgia,serif;font-weight:500;margin:0}
-.md{position:fixed;inset:0;background:#0006;display:grid;place-items:center;z-index:9;padding:16px}.box{background:#fff;border-radius:16px;padding:20px;width:min(520px,100%);display:grid;gap:10px}.box textarea{width:100%}
+:root{--ink:#3a2a23;--mut:#7a6a63;--gold2:#e6d3a8;--rose:#f5e4df;--terra:#a45d68;--ln:#eadbd3;--bg:#faf5f2}*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 Quicksand,system-ui,sans-serif;color:var(--ink);background:var(--bg)}.mut{color:var(--mut)}.err{color:#b3261e;min-height:22px}
+h2{font:500 32px/1.1 "Cormorant Garamond",Georgia,serif;margin:0 0 14px}h3{margin:24px 0 8px;font-weight:700}
+main#view{padding:34px clamp(16px,4vw,46px) 90px;max-width:1080px;width:100%}
+button{background:var(--terra);color:#fff;border:0;border-radius:99px;padding:9px 18px;font:inherit;font-weight:700;cursor:pointer;margin:3px;transition:transform .2s,filter .2s}button:hover{filter:brightness(1.07)}button.g{background:#fff;color:var(--ink);border:1px solid var(--ln)}button.wa{background:#1f9d55}
+.card{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;background:#fff;border:1px solid var(--ln);border-radius:18px;padding:14px 18px;margin:9px 0;box-shadow:0 6px 18px #3a2a2308;transition:box-shadow .25s,transform .25s}.card:hover{box-shadow:0 12px 28px #3a2a2312}.ac{display:flex;flex-wrap:wrap}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}input,select,textarea{padding:10px 13px;border:1px solid var(--ln);border-radius:12px;font:inherit;max-width:100%;background:#fff;color:var(--ink)}input:focus,select:focus,textarea:focus{outline:0;border-color:var(--terra);box-shadow:0 0 0 3px #a45d6822}.star{color:#c9a86a}
+.lg{max-width:380px;margin:9vh auto;display:grid;gap:10px;padding:30px 28px;background:#fff;border:1px solid var(--ln);border-radius:26px;box-shadow:0 30px 60px #3a2a2312}.lg h1{font:500 32px "Cormorant Garamond",Georgia,serif;margin:0;text-align:center}.lg .mut{text-align:center;margin:0}
+.md{position:fixed;inset:0;background:#0007;display:grid;place-items:center;z-index:50;padding:16px}.box{background:#fff;border-radius:22px;padding:22px;width:min(520px,100%);display:grid;gap:10px}.box textarea{width:100%}
+#app>header{display:flex;gap:12px;align-items:center;padding:12px 20px;background:#fff;border-bottom:1px solid var(--ln)}
 #print{display:none}@media print{body>*:not(#print){display:none!important}#print{display:block;color:#000}#print table{width:100%;border-collapse:collapse;margin-bottom:18px}#print th,#print td{border:1px solid #999;padding:6px 8px;text-align:left}#print td:last-child{width:22%}#print h1,#print h2{font-family:Georgia,serif}}
-</style></head><body><div id="app"></div><div id="print"></div><script type="module" src="balcao.js?v=10"></script></body></html>
+
+</style><link rel="stylesheet" href="painel.css?v=3"></head><body><div id="app"></div><div id="print"></div><script type="module" src="balcao.js?v=12"></script></body></html>

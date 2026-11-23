@@ -1,0 +1,26 @@
+/* Visual comum dos dois painéis (Balcão e Admin): menu lateral com a cor da Dra. + logo */
+:root{--p-ink:#3a2a23;--p-rg:#a45d68;--p-gold:#c8a460;--p-g2:#e6d3a8}
+.shell{display:grid;grid-template-columns:262px minmax(0,1fr);min-height:100vh;min-height:100dvh}
+#sd{position:sticky;top:0;height:100vh;height:100dvh;display:flex;flex-direction:column;padding:20px 14px 16px;overflow:auto;color:#f6ece6;
+  background:radial-gradient(120% 60% at 0 0,#7a4552 0,transparent 60%),linear-gradient(185deg,#5b3540 0%,#3f2b2e 45%,#2f211f 100%);box-shadow:4px 0 30px #3a2a2326;z-index:20}
+#sd::-webkit-scrollbar{width:0}
+.sb-top{display:flex;align-items:center;gap:12px;padding:4px 8px 18px;border-bottom:1px solid #ffffff1f;margin-bottom:10px}
+.sb-logo{width:46px;height:46px;flex:none;border-radius:50%;background:#ffffff14;display:grid;place-items:center;overflow:hidden}.sb-logo img{width:36px;height:36px;object-fit:contain;filter:brightness(0) invert(1);opacity:.95}
+.sb-nm{font:500 20px/1.1 "Cormorant Garamond",Georgia,serif;color:#fff}.sb-nm small{display:block;font:600 11px Quicksand,system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--p-g2);margin-top:4px}
+.sb-grp{font:700 10.5px Quicksand,system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#f6ece685;padding:14px 12px 5px}
+#sd .nv{text-decoration:none;display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:0;color:#f6ece6d9;padding:10px 12px;border-radius:12px;font:600 14.5px Quicksand,system-ui,sans-serif;cursor:pointer;transition:background .2s,color .2s,transform .2s;margin:1px 0;position:relative}
+#sd .nv:hover{background:#ffffff16;color:#fff;transform:translateX(2px)}
+#sd .nv.on{background:linear-gradient(95deg,#a45d68,#c07a82);color:#fff;box-shadow:0 8px 20px #0003}#sd .nv.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:4px;border-radius:0 4px 4px 0;background:var(--p-gold)}
+#sd .nv svg{width:19px;height:19px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+#sd .bd{margin-left:auto;background:var(--p-gold);color:var(--p-ink);font-size:11px;font-weight:700;border-radius:99px;padding:1px 8px;min-width:20px;text-align:center}
+#sd .gap{flex:1;min-height:12px}#sd .ft{border-top:1px solid #ffffff1f;padding-top:8px;margin-top:8px}
+#sd a.ex{display:flex;align-items:center;gap:12px;color:#f6ece6d9;text-decoration:none;padding:10px 12px;border-radius:12px;font:600 14.5px Quicksand,system-ui,sans-serif}#sd a.ex:hover{background:#ffffff16;color:#fff}
+#tb{display:none}
+.lgo{display:block;width:84px;height:84px;margin:0 auto 6px;object-fit:contain}
+@media(max-width:860px){.shell{grid-template-columns:1fr}
+  #tb{display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:30;background:linear-gradient(95deg,#5b3540,#3f2b2e);color:#fff;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+  #tb button{background:#ffffff1a;border:0;color:#fff;width:40px;height:40px;border-radius:12px;font-size:22px;line-height:1;display:grid;place-items:center}
+  #tb img{width:30px;height:30px;filter:brightness(0) invert(1)}#tb b{font:500 21px "Cormorant Garamond",Georgia,serif;flex:1}
+  #sd{z-index:40;position:fixed;left:0;top:0;bottom:0;width:284px;max-width:86vw;transform:translateX(-105%);transition:transform .32s cubic-bezier(.2,.8,.2,1)}body.mo #sd{transform:none;box-shadow:0 0 0 100vmax #0007}
+  #sd .nv{padding:13px 12px}}
+@media print{#sd,#tb{display:none!important}}

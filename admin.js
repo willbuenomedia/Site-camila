@@ -17,7 +17,7 @@ function login(msg=''){
   const E=h('input',{type:'email',placeholder:'E-mail',autocomplete:'username'}),P=h('input',{type:'password',placeholder:'Senha',autocomplete:'current-password'});
   const go=async()=>{const {error}=await sb.auth.signInWithPassword({email:E.value.trim(),password:P.value});error?alert(why(error)):panel()};
   P.onkeydown=e=>{if(e.key=='Enter')go()};
-  app.replaceChildren(h('div',{className:'lg'},h('h1',{textContent:'Painel da página'}),h('div',{className:'fld'},E),h('div',{className:'fld'},P),h('p',{className:'mut',id:'lm',textContent:msg,style:'min-height:20px;font-size:14px;margin:6px 0'}),h('button',{className:'btn',textContent:'Entrar',onclick:go}),h('button',{className:'nv',type:'button',style:'margin-top:12px;background:none;border:0;color:var(--rg,#a45d68);cursor:pointer;font:inherit;text-decoration:underline',textContent:'Esqueci a senha',onclick:async e=>{e.target.disabled=true;$('#lm').textContent='Enviando…';$('#lm').textContent=await forgot(sb,E.value.trim(),'/admin.html');e.target.disabled=false}})));
+  app.replaceChildren(h('div',{className:'lg'},h('img',{className:'lgo',src:'assets/logo.png',alt:''}),h('h1',{textContent:'Painel da página'}),h('div',{className:'fld'},E),h('div',{className:'fld'},P),h('p',{className:'mut',id:'lm',textContent:msg,style:'min-height:20px;font-size:14px;margin:6px 0'}),h('button',{className:'btn',textContent:'Entrar',onclick:go}),h('button',{className:'nv',type:'button',style:'margin-top:12px;background:none;border:0;color:var(--rg,#a45d68);cursor:pointer;font:inherit;text-decoration:underline',textContent:'Esqueci a senha',onclick:async e=>{e.target.disabled=true;$('#lm').textContent='Enviando…';$('#lm').textContent=await forgot(sb,E.value.trim(),'/admin.html');e.target.disabled=false}})));
 }
 async function panel(){
   const {data:okA}=await sb.rpc('is_admin');if(!okA){alert('Login correto, mas este e-mail ainda não está cadastrado como admin (tabela admins).');await sb.auth.signOut();return login()}ping(sb,1);
@@ -155,10 +155,10 @@ async function panel(){
     h('div',{className:'bar'},h('a',{className:'btn',href:'./index.html',target:'_blank',rel:'noopener',textContent:'Ver a página ↗'})));
   const stats=()=>{$('#sA b').textContent=K.filter(x=>x.active&&!pend(x)).length;$('#sU b').textContent=UN.length;drawTodo()};
   /* ---------- SHELL ---------- */
-  const nav={},side=h('aside',{id:'sd'},h('div',{className:'br'},'Painel ',h('em',{textContent:'Camila'})),h('div',{className:'sub',textContent:'Dra. Camila Migueis'}));
+  const nav={},side=h('aside',{id:'sd'},h('div',{className:'sb-top'},h('div',{className:'sb-logo'},h('img',{src:'assets/logo.png',alt:''})),h('div',{className:'sb-nm'},'Camila Migueis',h('small',{textContent:'Painel do site'}))),h('div',{className:'sb-grp',textContent:'Menu'}));
   VIEWS.forEach(([k,l])=>{const b=h('button',{className:'nv',onclick:()=>go(k)},svg(ICO[k]),l);if(k=='ia')b.append(nbd);nav[k]=b;side.append(b)});
-  side.append(h('div',{className:'gap'}),h('a',{className:'ex',href:'./index.html',target:'_blank',rel:'noopener',textContent:'Ver a página ↗'}),h('button',{className:'nv',onclick:async()=>{await sb.auth.signOut();login()}},'Sair'));
-  const title=h('b'),menuB=h('button',{textContent:'☰',onclick:()=>document.body.classList.toggle('mo')}),tb=h('header',{id:'tb'},menuB,title);menuB.setAttribute('aria-label','Menu');
+  side.append(h('div',{className:'gap'}),h('div',{className:'ft'},h('a',{className:'nv ex',href:'./index.html',target:'_blank',rel:'noopener'},svg('M14 3h7v7M10 14 21 3M21 14v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h6'),'Ver a página'),h('button',{className:'nv',onclick:async()=>{await sb.auth.signOut();login()}},svg('M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9'),'Sair')));
+  const title=h('b'),menuB=h('button',{textContent:'☰',onclick:()=>document.body.classList.toggle('mo')}),tb=h('header',{id:'tb'},menuB,h('img',{src:'assets/logo.png',alt:''}),title);menuB.setAttribute('aria-label','Menu');
   const main=h('main',{id:'mn'},...VIEWS.map(([k])=>views[k]));
   const go=k=>{if(!views[k])k='inicio';VIEWS.forEach(([x])=>{views[x].hidden=x!=k;nav[x].classList.toggle('on',x==k)});title.textContent=VIEWS.find(v=>v[0]==k)[1];document.body.classList.remove('mo');history.replaceState(null,'','#'+k);scrollTo(0,0);if(k=='textos')Object.values(grp).forEach(d=>d.open&&d.querySelectorAll('textarea').forEach(t=>t._g&&t._g()));if(k=='inicio')stats()};
   app.replaceChildren(h('div',{className:'shell'},side,h('div',{},tb,main)));
