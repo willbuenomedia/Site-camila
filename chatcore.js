@@ -37,3 +37,12 @@ export function reply(text,entries){
   }
   return one(all)||{kind:'none'};
 }
+
+// Respostas automáticas geradas pelos campos de Localização (admin). S = {loc_end, loc_hor, loc_insta, loc_pag}
+export const locEntries=S=>{const X=[],mk=(q,a,kw)=>X.push({category:'Contato',question:q,answer:a,keywords:kw,active:true});
+  const v=k=>String(S&&S[k]||'').trim();
+  if(v('loc_end'))mk('Onde fica a clínica?','A clínica fica em '+v('loc_end').replace(/\s*\n\s*/g,', ')+'. É só abrir o mapa no final da página.','endereco onde fica localizacao como chegar bairro rua mapa');
+  if(v('loc_hor'))mk('Qual o horário de atendimento?','Atendimento: '+v('loc_hor').replace(/\s*\n\s*/g,'; ')+'.','horario funcionamento dias atende sabado domingo aberto');
+  if(v('loc_insta'))mk('Qual é o Instagram?','Nosso Instagram é '+(v('loc_insta')[0]=='@'?v('loc_insta'):'@'+v('loc_insta'))+'.','instagram insta rede social perfil');
+  if(v('loc_pag'))mk('Formas de pagamento','Sobre pagamento: '+v('loc_pag')+'.','pagamento parcelar cartao pix parcelamento');
+  return X};

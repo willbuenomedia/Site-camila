@@ -1,5 +1,5 @@
 import {mk,h,ping} from './db.js';
-import {reply} from './chatcore.js';
+import {reply,locEntries} from './chatcore.js';
 import {KB_SEED} from './kbseed.js';
 const sb=mk('site',false);
 let E=KB_SEED.filter(e=>e.active),wa='5567996397101',G='Olá! Sou a assistente virtual da Dra. Camila Migueis. Posso tirar dúvidas sobre os procedimentos, a avaliação e o atendimento. Sobre o que você quer saber?',
@@ -21,11 +21,7 @@ const topics=()=>{const c=[...new Set(E.map(e=>e.category))].slice(0,6);return c
 async function load(){if(loaded)return;loaded=1;if(!sb)return;
   try{const [k,s]=await Promise.all([sb.from('kb_entries').select('category,question,answer,keywords,active,pos').eq('active',true).order('pos'),sb.from('site_content').select('key,value').in('key',['wa','chat_greet','chat_off','chat_db','loc_end','loc_hor','loc_insta','loc_pag'])]);
     const fl=(s.data||[]).some(r=>r.key=='chat_db'&&r.value=='1');if(k.data&&(k.data.length||fl))E=k.data;(s.data||[]).forEach(r=>{if(r.key=='wa'&&r.value)wa=r.value.replace(/\D/g,'');if(r.key=='chat_greet'&&r.value)G=r.value;if(r.key=='chat_off'&&r.value)FB=r.value});
-    const S=Object.fromEntries((s.data||[]).map(r=>[r.key,(r.value||'').trim()])),X=[],mk=(q,a,kw)=>X.push({category:'Contato',question:q,answer:a,keywords:kw,active:true});
-    if(S.loc_end)mk('Onde fica a clínica?','A clínica fica em '+S.loc_end.replace(/\s*\n\s*/g,', ')+'. É só abrir o mapa no final da página.','endereco onde fica localizacao como chegar bairro rua mapa');
-    if(S.loc_hor)mk('Qual o horário de atendimento?','Atendimento: '+S.loc_hor.replace(/\s*\n\s*/g,'; ')+'.','horario funcionamento dias atende sabado domingo aberto');
-    if(S.loc_insta)mk('Qual é o Instagram?','Nosso Instagram é '+(S.loc_insta[0]=='@'?S.loc_insta:'@'+S.loc_insta)+'.','instagram insta rede social perfil');
-    if(S.loc_pag)mk('Formas de pagamento','Sobre pagamento: '+S.loc_pag+'.','pagamento parcelar cartao pix parcelamento');
+    const S=Object.fromEntries((s.data||[]).map(r=>[r.key,(r.value||'').trim()])),X=locEntries(S);
     if(X.length)E=E.filter(e=>!X.some(x=>x.question==e.question)).concat(X)}catch(e){}}
 function send(t){t=String(t||'').trim().slice(0,200);if(!t)return;inp.value='';add(t,'me');const r=reply(t,E);
   if(r.kind=='urgent')return bot('Se você está com sintomas fortes ou que preocupam, como falta de ar, alteração na visão, dor forte ou a pele escurecendo, procure atendimento médico de urgência agora. Depois avise a equipe da Dra. Camila.',()=>wbtn('Olá! Preciso de ajuda com um sintoma após procedimento.'));
