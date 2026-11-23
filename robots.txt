@@ -5,3 +5,5 @@ Disallow: /balcao.html
 Disallow: /api/
 
 Sitemap: https://camilamigueis-two.vercel.app/sitemap.xml
+Disallow: /proposta.html
+Disallow: /termo.html

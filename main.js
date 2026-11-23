@@ -1,4 +1,7 @@
 import {mk,DEF,ping} from './db.js?v=9';
+// origem do anúncio (utm/fbclid/gclid) guardada só nesta visita
+window.CM_CP=(()=>{try{const q=new URLSearchParams(location.search),k='cm-cp';let o=JSON.parse(sessionStorage.getItem(k)||'null');const c=q.get('utm_campaign')||q.get('campanha'),s=q.get('utm_source'),md=q.get('utm_medium'),fb=q.get('fbclid'),g=q.get('gclid');
+  if(c||fb||g){o={c:(c||(fb?'meta-sem-nome':'google-sem-nome')).slice(0,80),s:(s||(fb?'facebook':'google')).slice(0,80),m:(md||'').slice(0,80)};sessionStorage.setItem(k,JSON.stringify(o))}return o||{}}catch(e){return{}}})();
 const sb=mk('site',false);
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -24,9 +27,11 @@ try{
 }catch(e){}
 document.addEventListener('click',e=>{
   const a=e.target.closest('[data-wa]');if(!a)return;
-  sb&&sb.from('clicks').insert({source:a.dataset.wa}).then(()=>{});
+  const cp=window.CM_CP||{},cid=cp.c?Math.random().toString(36).slice(2,7).toUpperCase():null;
+  if(cid)try{const u=new URL(a.href);u.searchParams.set('text',(u.searchParams.get('text')||'')+'\n\n(ref '+cid+')');a.href=u.toString()}catch(x){}
+  sb&&sb.from('clicks').insert({source:a.dataset.wa,campaign:cp.c||null,utm_source:cp.s||null,utm_medium:cp.m||null,cid}).then(r=>{if(r&&r.error)return sb.from('clicks').insert({source:a.dataset.wa})}).then(()=>{},()=>{});
   (window.dataLayer=window.dataLayer||[]).push({event:'whatsapp_click',source:a.dataset.wa});
-  try{fbq('track','Contact')}catch(x){}
+  try{fbq('track','Lead')}catch(x){}try{gtag('event','generate_lead',{method:a.dataset.wa})}catch(x){}
 });
 const hd=$('#hd'),dks=$$('.dark,.quote,footer');let tk=0;const upd=()=>{tk=0;hd.classList.toggle('s',scrollY>40);hd.classList.toggle('dk',dks.some(e=>{const r=e.getBoundingClientRect();return r.top<=44&&r.bottom>=44}))};addEventListener('scroll',()=>{tk||(tk=requestAnimationFrame(upd))},{passive:true});upd();
 const ph=$('#ph');addEventListener('mousemove',e=>{if(innerWidth>820)ph.style.transform=`translate(${(e.clientX/innerWidth-.5)*-14}px,${(e.clientY/innerHeight-.5)*-14}px)`});

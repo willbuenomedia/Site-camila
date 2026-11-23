@@ -9,6 +9,8 @@ function open(t){ov.classList.add('on');document.body.style.overflow='hidden';
   body.replaceChildren();foot.replaceChildren();body.scrollTop=0;(t=='agendar'?booking:review)()}
 document.addEventListener('click',e=>{const t=e.target.closest('[data-open]');if(t){e.preventDefault();open(t.dataset.open)}});
 addEventListener('keydown',e=>e.key=='Escape'&&close());
+// depois do pedido: marca a campanha, avisa a recepção e mede a conversão (Pixel/GA4 só se aceitos)
+const after=id=>{try{const c=(window.CM_CP||{}).c;id&&c&&sb.rpc('tag_appointment',{p_id:id,p_campaign:c}).then(()=>{},()=>{});fetch('/api/notificar',{method:'POST',keepalive:true}).catch(()=>{});try{fbq('track','Schedule')}catch(x){}try{gtag('event','schedule_request')}catch(x){}}catch(x){}};
 const wa=()=>{const a=$('[data-wa=final]');return h('a',{className:'btn',href:a?a.href:'#',target:'_blank',rel:'noopener',textContent:'Falar pelo WhatsApp'})};
 async function booking(){const fb=()=>{body.replaceChildren(h('p',{textContent:'O agendamento online não está disponível agora. Fale conosco pelo WhatsApp.'}));foot.replaceChildren(wa())};
   if(!sb)return fb();body.textContent='Carregando…';
@@ -27,7 +29,7 @@ async function booking(){const fb=()=>{body.replaceChildren(h('p',{textContent:'
     body.replaceChildren(sum,name,ph,hp,h('label',{className:'ck'},ck,'Autorizo a clínica a usar meu nome e telefone só para falar sobre este agendamento (não é propaganda). Não informe dados de saúde aqui.'),msg);
     const send=h('button',{className:'btn',type:'button',textContent:'Solicitar horário',onclick:async()=>{msg.textContent='';
       if(name.value.trim().length<2||ph.value.replace(/\D/g,'').length<10)return msg.textContent='Preencha nome e WhatsApp com DDD.';if(!ck.checked)return msg.textContent='Marque a autorização para continuar.';if(hp.value)return done();
-      send.disabled=true;const {error}=await sb.rpc('request_appointment',{p_procedure:sel.value,p_start:pick,p_name:name.value,p_phone:ph.value,p_consent:true});send.disabled=false;error?msg.textContent=ERR(error.message):done()}});
+      send.disabled=true;const {data:id,error}=await sb.rpc('request_appointment',{p_procedure:sel.value,p_start:pick,p_name:name.value,p_phone:ph.value,p_consent:true});send.disabled=false;if(error)return msg.textContent=ERR(error.message);after(id);done()}});
     foot.replaceChildren(send)};
   step1()}
 function review(){if(!sb)return body.replaceChildren(h('p',{textContent:'Avaliações indisponíveis no momento.'}));let st=5;

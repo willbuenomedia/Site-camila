@@ -1,4 +1,5 @@
 import {mk,h,ping,why,forgot,recovery} from './db.js?v=9';
+import clinica from './clinica.js?v=10';
 const sb=mk('balcao',true);
 const $=s=>document.querySelector(s),app=$('#app');
 const TZ='America/Campo_Grande',L=(d,o)=>new Date(d).toLocaleString('pt-BR',{timeZone:TZ,...o});
@@ -6,7 +7,7 @@ const hora=d=>L(d,{hour:'2-digit',minute:'2-digit'}),dia=d=>L(d,{weekday:'short'
 const ST=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],BR=d=>d.split('-').reverse().join('/');
 const TPL={conf:'Olá, {nome}! Seu agendamento na Clínica Camila Migueis foi confirmado para o dia {data}, às {hora}. Esperamos você!',indisp:'Olá, {nome}! Recebemos sua solicitação de agendamento, mas infelizmente esse horário não está mais disponível. Podemos verificar outra opção para você?',novo:'Olá, {nome}! Temos disponibilidade para atendê-la no dia {data}, às {hora}. Esse horário funciona para você?',canc:'Olá, {nome}! Precisamos entrar em contato sobre seu agendamento do dia {data}. Por favor, fale conosco para verificarmos uma nova opção.'};
 const NAMES={conf:'Confirmação',indisp:'Horário indisponível',novo:'Sugerir novo horário',canc:'Cancelamento ou alteração'};
-let A=[],R=[],tab='pend',F={from:today(),to:iso(Date.now()+7*864e5),proc:''},ev=null;
+let A=[],R=[],tab='hoje',F={from:today(),to:iso(Date.now()+7*864e5),proc:''},ev=null;
 const btn=(t,f,c='')=>h('button',{textContent:t,onclick:f,className:c});
 const closeM=()=>{const m=$('#md');m&&m.remove()};
 function modal(title,...k){closeM();document.body.append(h('div',{id:'md',className:'md'},h('div',{className:'box'},h('h3',{textContent:title}),...k,btn('Fechar',closeM,'g'))))}
@@ -16,7 +17,7 @@ function wa(a,k){const nome=a.patient_name.split(' ')[0],fill=t=>t.replace('{nom
   sel.onchange=()=>ta.value=fill(TPL[sel.value]);const n=a.phone.length<=11?'55'+a.phone:a.phone;
   modal('WhatsApp · '+a.patient_name,h('p',{className:'mut',textContent:'Revise a mensagem. O sistema só abre o WhatsApp; você envia manualmente.'}),sel,ta,btn('Abrir WhatsApp',()=>{window.open('https://wa.me/'+n+'?text='+encodeURIComponent(ta.value),'_blank','noopener');closeM()},'wa'))}
 async function setS(a,status,after){const {error}=await sb.from('appointments').update({status}).eq('id',a.id);
-  if(error)return alert(error.code=='23P01'?'Já existe um atendimento confirmado nesse horário. Cancele o outro ou sugira um novo horário.':'Não foi possível concluir. Tente novamente.');await load();after&&wa(a,after)}
+  if(error)return alert(error.code=='23P01'?'Já existe um atendimento confirmado nesse horário. Cancele o outro ou sugira um novo horário.':'Não foi possível concluir. Tente novamente.');if(status=='confirmed')try{await K.ensurePatient(a)}catch(e){}await load();after&&wa(a,after);if(status=='cancelled')alert('Horário liberado. Veja em “Espera” se há alguém para avisar.')}
 const card=(a,...b)=>h('div',{className:'card'},h('div',{},h('b',{textContent:a.patient_name}),h('div',{className:'mut',textContent:`${a.phone} · ${a.procedure_name}`}),h('div',{textContent:`${dia(a.starts_at)} às ${hora(a.starts_at)}`})),h('div',{className:'ac'},...b));
 const empty=t=>h('p',{className:'mut',textContent:t});
 const vPend=()=>{const l=A.filter(x=>x.status=='pending'&&new Date(x.ends_at)>new Date());return h('div',{},h('h2',{textContent:'Solicitações pendentes'}),...(l.length?l.map(a=>card(a,btn('Confirmar',()=>setS(a,'confirmed','conf')),btn('Recusar',()=>setS(a,'declined','indisp'),'g'),btn('WhatsApp',()=>wa(a,'novo'),'wa'))):[empty('Nenhuma solicitação pendente.')]))};
@@ -40,14 +41,19 @@ async function rv(r,status){const {error}=await sb.from('reviews').update({statu
 const vAval=()=>{const o={pending:0,approved:1,rejected:2},l=[...R].sort((a,b)=>o[a.status]-o[b.status]),S={pending:'Aguardando aprovação',approved:'Aprovada',rejected:'Recusada'};
   return h('div',{},h('h2',{textContent:'Avaliações'}),...(l.length?l.map(r=>h('div',{className:'card'},h('div',{},h('b',{textContent:r.name}),h('span',{className:'star',textContent:' '+'★'.repeat(r.stars)+'☆'.repeat(5-r.stars)}),h('div',{textContent:r.comment}),h('div',{className:'mut',textContent:`Enviada em ${L(r.created_at,{day:'2-digit',month:'2-digit',year:'numeric'})} · ${S[r.status]}${r.reviewed_at?' em '+L(r.reviewed_at,{day:'2-digit',month:'2-digit',year:'numeric'}):''}`})),
     h('div',{className:'ac'},...(r.status!='approved'?[btn('Aprovar',()=>rv(r,'approved'))]:[]),...(r.status!='rejected'?[btn('Recusar',()=>rv(r,'rejected'),'g')]:[]),btn('Excluir',async()=>{if(confirm('Excluir esta avaliação?')){await sb.from('reviews').delete().eq('id',r.id);load()}},'g')))):[empty('Nenhuma avaliação recebida.')]))};
+const K=clinica({sb,h,btn,L,hora,dia,iso,today,BR,A:()=>A,state:{},go:k=>{tab=k;render()},reload:()=>load()});
+const VIEWS={hoje:K.hoje,lemb:K.lemb,espera:K.espera,pac:K.pac,fin:K.fin,funil:K.funil,rel:K.rel};
 function render(){const np=A.filter(x=>x.status=='pending'&&new Date(x.ends_at)>new Date()).length,nr=R.filter(x=>x.status=='pending').length;document.title=(np+nr?`(${np+nr}) `:'')+'Balcão · Clínica Camila Migueis';
-  const T=[['pend','Solicitações'+(np?` (${np})`:'')],['conf','Confirmados'],['disp','Disponibilidade'],['aval','Avaliações'+(nr?` (${nr})`:'')]];
-  $('#nav').replaceChildren(...T.map(([k,t])=>h('button',{textContent:t,className:k==tab?'':'g',onclick:()=>{tab=k;render()}})));
-  const c=$('#view');c.replaceChildren();if(tab=='pend')c.append(vPend());if(tab=='conf')c.append(vConf());if(tab=='aval')c.append(vAval());if(tab=='disp')vDisp(c)}
-async function load(){ping(sb,1);const [a,r]=await Promise.all([sb.from('appointments').select('*').gte('starts_at',new Date(Date.now()-30*864e5).toISOString()).order('starts_at').limit(1500),sb.from('reviews').select('*').order('created_at',{ascending:false}).limit(300)]);A=a.data||[];R=r.data||[];render()}
+  const T=[['hoje','Hoje'],['pend','Solicitações'+(np?` (${np})`:'')],['conf','Confirmados'],['pac','Pacientes'],['lemb','Lembretes'],['espera','Espera'],['fin','Financeiro'],['funil','Funil'],['rel','Relatório'],['disp','Disponibilidade'],['aval','Avaliações'+(nr?` (${nr})`:'')]];
+  $('#nav').replaceChildren(...T.map(([k,t])=>h('button',{textContent:t,className:k==tab?'on':'g',onclick:()=>{tab=k;render()}})));
+  const c=$('#view');c.replaceChildren();if(tab=='pend')c.append(vPend());if(tab=='conf')c.append(vConf());if(tab=='aval')c.append(vAval());if(tab=='disp')vDisp(c);if(VIEWS[tab])VIEWS[tab](c)}
+let lastP=-1;
+function aviso(n){try{if(lastP>=0&&n>lastP){if('Notification' in window&&Notification.permission=='granted')new Notification('Novo pedido de agendamento',{body:'Há '+n+' solicitação(ões) para responder.',icon:'assets/icons/icon-192.png'});try{const c=new AudioContext(),o=c.createOscillator();o.connect(c.destination);o.frequency.value=880;o.start();o.stop(c.currentTime+.18)}catch(e){}}lastP=n}catch(e){}}
+async function load(silent){ping(sb,1);const [a,r]=await Promise.all([sb.from('appointments').select('*').gte('starts_at',new Date(Date.now()-30*864e5).toISOString()).order('starts_at').limit(1500),sb.from('reviews').select('*').order('created_at',{ascending:false}).limit(300)]);A=a.data||[];R=r.data||[];aviso(A.filter(x=>x.status=='pending'&&new Date(x.ends_at)>new Date()).length);
+  if(silent&&!['pend','conf','hoje'].includes(tab)){const np=A.filter(x=>x.status=='pending'&&new Date(x.ends_at)>new Date()).length,nr=R.filter(x=>x.status=='pending').length;document.title=(np+nr?`(${np+nr}) `:'')+'Balcão · Clínica Camila Migueis';return}render()}
 const showInst=()=>{const i=$('#inst');ev&&i&&i.replaceChildren(btn('Instalar aplicativo',()=>{ev.prompt();ev=null;i.replaceChildren()},'wa'))};
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();ev=e;showInst()});
-function start(){app.replaceChildren(h('header',{},h('b',{textContent:'Clínica Camila Migueis · Balcão'}),h('span',{id:'inst'}),btn('Sair',async()=>{await sb.auth.signOut();location.reload()},'g')),h('nav',{id:'nav'}),h('main',{id:'view'}));showInst();load();setInterval(()=>{if(!$('#md')&&tab!='disp')load()},60000)}
+function start(){app.replaceChildren(h('header',{},h('b',{textContent:'Clínica Camila Migueis · Balcão'}),h('span',{id:'inst'}),('Notification' in window&&Notification.permission=='default')?btn('Ativar avisos',async e=>{await Notification.requestPermission();e.target.remove()},'g'):'',btn('Sair',async()=>{await sb.auth.signOut();location.reload()},'g')),h('nav',{id:'nav'}),h('main',{id:'view'}));showInst();load();setInterval(()=>{if(!$('#md'))load(true)},30000)}
 function login(msg=''){const e=h('input',{type:'email',placeholder:'E-mail',autocomplete:'username'}),p=h('input',{type:'password',placeholder:'Senha',autocomplete:'current-password'}),go=async()=>{const {error}=await sb.auth.signInWithPassword({email:e.value.trim(),password:p.value});error?login(why(error)):boot()};p.onkeydown=x=>{if(x.key=='Enter')go()};
   app.replaceChildren(h('div',{className:'lg'},h('h1',{textContent:'Balcão'}),h('p',{className:'mut',textContent:'Clínica Camila Migueis · acesso da recepção'}),h('p',{className:'err',textContent:msg}),e,p,btn('Entrar',go),h('p',{className:'mut',id:'lm',style:'font-size:14px;margin:0'}),btn('Esqueci a senha',async()=>{$('#lm').textContent='Enviando…';$('#lm').textContent=await forgot(sb,e.value.trim(),'/balcao.html')},'g')))}
 async function boot(){if(!sb)return app.replaceChildren(h('p',{textContent:'Configure o config.js com a URL e a chave do Supabase.'}));

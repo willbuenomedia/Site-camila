@@ -23,7 +23,8 @@ async function load(){if(loaded)return;loaded=1;if(!sb)return;
     const fl=(s.data||[]).some(r=>r.key=='chat_db'&&r.value=='1');if(k.data&&(k.data.length||fl))E=k.data;(s.data||[]).forEach(r=>{if(r.key=='wa'&&r.value)wa=r.value.replace(/\D/g,'');if(r.key=='chat_greet'&&r.value)G=r.value;if(r.key=='chat_off'&&r.value)FB=r.value});
     const S=Object.fromEntries((s.data||[]).map(r=>[r.key,(r.value||'').trim()])),X=locEntries(S);
     if(X.length)E=E.filter(e=>!X.some(x=>x.question==e.question)).concat(X)}catch(e){}}
-function send(t){t=String(t||'').trim().slice(0,200);if(!t)return;inp.value='';add(t,'me');const r=reply(t,E);
+const agbtn=()=>{const b=h('button',{type:'button',textContent:'Agendar horário online',className:'ag',onclick:()=>setTimeout(close,50)});b.dataset.open='agendar';const d=h('div',{className:'ch'},b);msgs.append(d);msgs.scrollTop=msgs.scrollHeight};
+function send(t){t=String(t||'').trim().slice(0,200);if(!t)return;inp.value='';add(t,'me');const r=reply(t,E);if(/agend|marc(ar|aç)|remarc|hor[aá]rio|dispon|consulta|avalia[cç][aã]o/i.test(t)&&r.kind!='urgent')setTimeout(agbtn,1800);
   if(r.kind=='urgent')return bot('Se você está com sintomas fortes ou que preocupam, como falta de ar, alteração na visão, dor forte ou a pele escurecendo, procure atendimento médico de urgência agora. Depois avise a equipe da Dra. Camila.',()=>wbtn('Olá! Preciso de ajuda com um sintoma após procedimento.'));
   if(r.kind=='greet')return bot(G,()=>chips(topics(),x=>send('Quero saber sobre '+x)));
   if(r.kind=='thanks')return bot('Por nada! Se surgir outra dúvida, é só escrever.');

@@ -1,0 +1,14 @@
+import {mk,h} from './db.js?v=9';
+const sb=mk('site',false),app=document.getElementById('app'),t=new URLSearchParams(location.search).get('t')||'';
+const bye=(a,b)=>app.replaceChildren(h('div',{className:'ok'},h('h1',{textContent:a}),h('p',{className:'mut',textContent:b})));
+(async()=>{if(!sb||!/^[a-f0-9]{32}$/.test(t))return bye('Link inválido','Peça um novo link para a clínica.');
+  const {data:f,error}=await sb.rpc('get_consent',{p_token:t});if(error||!f)return bye('Link inválido','Peça um novo link para a clínica.');
+  if(f.status=='signed')return bye('Termo já assinado','Obrigada! Não é preciso fazer mais nada.');
+  const cv=h('canvas',{width:900,height:340}),ctx=cv.getContext('2d');ctx.lineWidth=5;ctx.lineCap='round';ctx.strokeStyle='#2a1e19';let on=false,drew=false;
+  const P=e=>{const r=cv.getBoundingClientRect();return [(e.clientX-r.left)*cv.width/r.width,(e.clientY-r.top)*cv.height/r.height]};
+  cv.onpointerdown=e=>{cv.setPointerCapture(e.pointerId);on=true;const [x,y]=P(e);ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+.1,y+.1);ctx.stroke()};
+  cv.onpointermove=e=>{if(!on)return;drew=true;const [x,y]=P(e);ctx.lineTo(x,y);ctx.stroke()};cv.onpointerup=cv.onpointercancel=()=>{on=false};
+  const nm=h('input',{placeholder:'Seu nome completo',value:f.patient_name,maxLength:100,autocomplete:'name'}),ck=h('input',{type:'checkbox',style:'width:auto;margin-top:4px'}),m=h('p',{className:'err'});
+  const b=h('button',{type:'button',textContent:'Assinar termo',onclick:async()=>{m.textContent='';if(nm.value.trim().length<2)return m.textContent='Digite seu nome.';if(!drew)return m.textContent='Faça sua assinatura no quadro.';if(!ck.checked)return m.textContent='Marque que leu e concorda.';
+    b.disabled=true;const {error}=await sb.rpc('sign_consent',{p_token:t,p_name:nm.value,p_signature:cv.toDataURL('image/png')});b.disabled=false;if(error)return m.textContent='Não foi possível assinar agora. Tente de novo.';bye('Termo assinado!','Obrigada. A clínica já recebeu o seu termo.')}});
+  app.replaceChildren(h('h1',{textContent:f.title}),h('pre',{textContent:f.body}),h('label',{className:'mut'},'Seu nome'),nm,h('label',{className:'mut'},'Assine com o dedo'),cv,h('button',{type:'button',className:'g',textContent:'Limpar assinatura',onclick:()=>{ctx.clearRect(0,0,cv.width,cv.height);drew=false}}),h('label',{style:'display:flex;gap:10px;font-size:14px'},ck,'Li o termo, tirei minhas dúvidas e concordo com o que está escrito.'),m,b)})();

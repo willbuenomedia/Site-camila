@@ -1,0 +1,14 @@
+import {mk,h} from './db.js?v=9';
+const sb=mk('site',false),app=document.getElementById('app'),t=new URLSearchParams(location.search).get('t')||'';
+const brl=c=>((c||0)/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const bye=(a,b)=>app.replaceChildren(h('div',{className:'ok'},h('h1',{textContent:a}),h('p',{className:'mut',textContent:b})));
+(async()=>{if(!sb||!/^[a-f0-9]{32}$/.test(t))return bye('Link inválido','Peça um novo link para a clínica.');
+  const {data:q,error}=await sb.rpc('get_quote',{p_token:t});if(error||!q)return bye('Link inválido','Peça um novo link para a clínica.');
+  const venc=q.valid_until&&new Date(q.valid_until+'T23:59:59-04:00')<new Date();
+  const head=[h('h1',{textContent:q.title}),h('p',{className:'mut',style:'text-align:center',textContent:'Proposta para '+q.patient_name}),...(q.items||[]).map(i=>h('div',{className:'it'},h('span',{textContent:i.d}),h('b',{textContent:brl(i.v)}))),h('div',{className:'tt'},h('span',{textContent:'Total'}),h('span',{textContent:brl(q.total_cents)})),...(q.note?[h('p',{className:'mut',textContent:q.note})]:[]),...(q.valid_until?[h('p',{className:'mut',textContent:'Válida até '+q.valid_until.split('-').reverse().join('/')})]:[])];
+  if(q.status=='accepted')return app.replaceChildren(...head,h('p',{style:'font-weight:600;text-align:center',textContent:'✔ Proposta aceita. A clínica entrará em contato.'}));
+  if(q.status=='refused')return app.replaceChildren(...head,h('p',{className:'mut',style:'text-align:center',textContent:'Esta proposta foi recusada.'}));
+  if(venc)return app.replaceChildren(...head,h('p',{className:'err',style:'text-align:center',textContent:'Esta proposta venceu. Fale com a clínica para renovar.'}));
+  const nm=h('input',{placeholder:'Seu nome completo (para o aceite)',value:q.patient_name,maxLength:100,autocomplete:'name'}),m=h('p',{className:'err'});
+  const send=async ac=>{m.textContent='';if(ac&&nm.value.trim().length<2)return m.textContent='Digite seu nome para aceitar.';const {data,error}=await sb.rpc('answer_quote',{p_token:t,p_accept:ac,p_name:nm.value});if(error)return m.textContent='Não foi possível enviar agora. Tente de novo.';bye(data=='accepted'?'Proposta aceita!':'Resposta enviada','A clínica foi avisada e entrará em contato.')};
+  app.replaceChildren(...head,nm,m,h('div',{className:'row'},h('button',{type:'button',textContent:'Aceitar proposta',onclick:()=>send(true)}),h('button',{type:'button',className:'g',textContent:'Recusar',onclick:()=>send(false)})))})();
