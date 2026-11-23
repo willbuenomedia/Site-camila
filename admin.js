@@ -65,9 +65,9 @@ async function panel(){
       pv=h('img',{className:'pv2',src:t.image_url||'',style:t.image_url?'':'display:none'}),
       up=h('input',{type:'file',accept:'image/jpeg,image/png,image/webp',onchange:async x=>{const f=x.target.files[0];if(!f)return;flash('Enviando…');
         const old=pathOf(t.image_url),st=sb.storage.from('media'),p=`tr-${t.id}-${Date.now()}.${ext(f)||'jpg'}`,{error}=await st.upload(p,f,{cacheControl:'31536000',contentType:f.type});
-        if(error)return flash('Não foi possível enviar o arquivo');
+        if(error)return flash('Não foi possível enviar o arquivo: '+(error.message||''));
         const u=st.getPublicUrl(p).data.publicUrl,{error:e2}=await sb.from('treatments').update({image_url:u}).eq('id',t.id);
-        if(e2){st.remove([p]);return flash('Não foi possível salvar a foto (rode o SQL migracao-v2)')}
+        if(e2){st.remove([p]);return flash('Não foi possível salvar a foto: '+(e2.message||'')+' — rode o SQL migracao-v2')}
         t.image_url=u;pv.src=u;pv.style.display='';old&&st.remove([old]);flash('Salvo ✓')}}),
       rm=h('button',{className:'btn g sm',textContent:'Remover foto',onclick:async()=>{const old=pathOf(t.image_url);if(!old)return;await sb.from('treatments').update({image_url:null}).eq('id',t.id);sb.storage.from('media').remove([old]);t.image_url=null;pv.style.display='none';flash('Salvo ✓')}});
     return h('details',{className:'it',open:T.length<4},h('summary',{},h('b',{textContent:t.title||'Sem nome'}),h('span',{className:'tg o',textContent:t.image_url?'com foto':'sem foto'})),h('div',{className:'bd2'},fld('Nome',a),fld('Descrição',b),fld('Foto do cartão',h('div',{},pv,up,rm)),
