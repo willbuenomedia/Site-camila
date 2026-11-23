@@ -84,9 +84,16 @@ footer .row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;f
 .bk .ck{display:flex;gap:10px;align-items:flex-start;text-transform:none;letter-spacing:0;font-size:13.5px;font-weight:400}.bk .ck input{width:auto;margin-top:4px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid var(--g2);background:#fff;color:var(--ink);border-radius:99px;padding:9px 16px;font:inherit;cursor:pointer}.chip.on{background:var(--rg);color:#fff;border-color:var(--rg)}
 .bkm{color:var(--rg);min-height:22px;margin:6px 0}.ok{text-align:center;padding:20px}.bk .btn{margin-top:8px}
-.mdl{position:fixed;inset:0;z-index:60;background:#0008;display:none;align-items:flex-end;justify-content:center}.mdl.on{display:flex}
-.mbox{background:#fff;width:min(560px,100%);max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px 22px calc(26px + env(safe-area-inset-bottom,0px))}
-@media(min-width:700px){.mdl{align-items:center}.mbox{border-radius:22px}}.mtabs{display:flex;gap:8px;margin-bottom:6px}
+.mdl{position:fixed;inset:0;z-index:60;background:#0006;display:flex;align-items:flex-end;justify-content:center;visibility:hidden;opacity:0;transition:opacity .3s,visibility 0s .35s}.mdl.on{visibility:visible;opacity:1;transition:opacity .3s}
+.mbox{background:#fff;width:min(520px,100%);height:min(66svh,520px);display:flex;flex-direction:column;border-radius:24px 24px 0 0;padding:8px 18px 0;transform:translateY(100%);transition:transform .38s cubic-bezier(.2,.8,.2,1);box-shadow:0 -20px 50px #3a2a2326}.mdl.on .mbox{transform:none}
+.grip{display:block;width:42px;height:4px;border-radius:9px;background:#e0cfc6;margin:2px auto 10px;flex:none;cursor:pointer}
+.mtabs{display:flex;gap:8px;margin-bottom:2px;flex:none}.mtabs .chip{padding:7px 14px;font-size:14px}
+.mbox .bk{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding-bottom:10px}.bk label{margin:12px 0 5px}.bk input,.bk select,.bk textarea{padding:11px 13px;margin-bottom:6px}
+.mft{flex:none;padding:10px 0 calc(12px + env(safe-area-inset-bottom,0px));background:#fff;border-top:1px solid #f0e4dd}.mft .btn{width:100%;justify-content:center;padding:13px 20px}
+.chips.row{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -18px;padding:0 18px 4px}.chips.row::-webkit-scrollbar{display:none}.chips.row .chip{flex:none}
+.chips.tm{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.chips.tm .chip{padding:9px 0;text-align:center}
+.sum{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#f7ece6;border-radius:14px;padding:10px 14px;margin:10px 0;font-size:14px;font-weight:600}.sum button{background:none;border:0;color:var(--rg);font:600 13px var(--sans);text-decoration:underline;cursor:pointer}
+.bk .ck{font-size:12.5px;line-height:1.4}.ok{padding:30px 10px}@media(min-width:700px){.mdl{align-items:center}.mbox{border-radius:24px;height:min(78vh,600px);padding:12px 26px 0}.mdl:not(.on) .mbox{transform:translateY(30px)}.chips.row{margin:0 -26px;padding:0 26px 4px}}
 
 .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:44px}
 .card{flex:0 1 172px;background:#fff;border-radius:22px;padding:12px 12px 20px;text-align:center;transition:transform .4s,box-shadow .4s}.card:hover{transform:translateY(-6px);box-shadow:0 18px 40px #3a2a231c}
@@ -247,7 +254,7 @@ footer{padding-top:42px}.mark{font-size:13.2vw;margin-bottom:22px}footer .row{fl
 <div class="hub" id="hub"><div class="hm" id="hm"><button class="ho dk" type="button" data-chat><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg><span>Tirar dúvidas<small>Assistente virtual</small></span></button><a class="ho wz" data-wa="flutuante" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.500a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span>Falar no WhatsApp<small>Resposta da equipe</small></span></a></div><button class="hb" type="button" aria-expanded="false" aria-controls="hm" aria-label="Abrir opções de contato"><svg class="c" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg><svg class="x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
 <script src="consent.js?v=9"></script>
 <script type="module" src="main.js?v=9"></script>
-<script type="module" src="agendar.js?v=9"></script>
+<script type="module" src="agendar.js?v=10"></script>
 <script type="module" src="chat.js?v=9"></script>
 <script src="fx.js?v=9"></script>
 </body></html>
