@@ -1,4 +1,4 @@
-import {mk,h,DEF,ping,why} from './db.js';
+import {mk,h,DEF,ping,why,forgot,recovery} from './db.js';
 import {KB_SEED} from './kbseed.js';
 import {reply,locEntries} from './chatcore.js';
 const sb=mk('admin',true);
@@ -12,12 +12,12 @@ const SUB={inicio:'Resumo do que está acontecendo na página.',textos:'Todos os
 const svg=d=>{const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 24 24');const p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d',d);s.append(p);return s};
 const grow=t=>{t.style.height='auto';t.style.height=Math.min(420,t.scrollHeight+2)+'px'};
 const slug=s=>s.toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g,'');
-async function init(){if(!sb)return app.textContent='Configure o config.js com a URL e a chave do Supabase.';const {data:{session}}=await sb.auth.getSession();session?panel():login()}
-function login(){
+async function init(){if(!sb)return app.textContent='Configure o config.js com a URL e a chave do Supabase.';if(await recovery(sb,app,m=>login(m)))return;const {data:{session}}=await sb.auth.getSession();session?panel():login()}
+function login(msg=''){
   const E=h('input',{type:'email',placeholder:'E-mail',autocomplete:'username'}),P=h('input',{type:'password',placeholder:'Senha',autocomplete:'current-password'});
   const go=async()=>{const {error}=await sb.auth.signInWithPassword({email:E.value.trim(),password:P.value});error?alert(why(error)):panel()};
   P.onkeydown=e=>{if(e.key=='Enter')go()};
-  app.replaceChildren(h('div',{className:'lg'},h('h1',{textContent:'Painel da página'}),h('div',{className:'fld'},E),h('div',{className:'fld'},P),h('button',{className:'btn',textContent:'Entrar',onclick:go})));
+  app.replaceChildren(h('div',{className:'lg'},h('h1',{textContent:'Painel da página'}),h('div',{className:'fld'},E),h('div',{className:'fld'},P),h('p',{className:'mut',id:'lm',textContent:msg,style:'min-height:20px;font-size:14px;margin:6px 0'}),h('button',{className:'btn',textContent:'Entrar',onclick:go}),h('button',{className:'nv',type:'button',style:'margin-top:12px;background:none;border:0;color:var(--rg,#a45d68);cursor:pointer;font:inherit;text-decoration:underline',textContent:'Esqueci a senha',onclick:async e=>{e.target.disabled=true;$('#lm').textContent='Enviando…';$('#lm').textContent=await forgot(sb,E.value.trim(),'/admin.html');e.target.disabled=false}})));
 }
 async function panel(){
   const {data:okA}=await sb.rpc('is_admin');if(!okA){alert('Login correto, mas este e-mail ainda não está cadastrado como admin (tabela admins).');await sb.auth.signOut();return login()}ping(sb,1);
